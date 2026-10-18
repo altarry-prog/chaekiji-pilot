@@ -1,0 +1,45 @@
+# 책이지 시험 이용 화면 점검 — 고칠 때마다·매일 10:17(한국 시간)·손으로.
+# ① 모의 중계 점검(tests/check_pilot.mjs, 네트워크 불필요) ② 게시된 화면을 실제 중계로 여는 실제 점검(tests/live_check.mjs)
+# 실제 점검 결과는 check/last_check.json에 커밋한다(정보나루 호출 1~2회 안팎). 키·비밀값은 쓰지 않는다.
+name: check
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["check/**", "**.md", "docs/**"]
+  schedule:
+    - cron: "17 1 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: check
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 점검 도구 설치(playwright·axe-core)
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: 모의 중계 점검
+        run: node tests/check_pilot.mjs
+      - name: 실제 점검(게시된 화면 + 실제 중계)
+        id: live
+        run: node tests/live_check.mjs
+      - name: 실제 점검 결과 기록
+        if: always()
+        run: |
+          [ -f check/last_check.json ] || exit 0
+          git config user.name "chaekiji-pilot-check"
+          git config user.email "pilot-check@users.noreply.github.com"
+          git add check/last_check.json
+          git diff --cached --quiet && exit 0
+          git commit -m "실제 점검 기록 $(date -u -d '+9 hours' '+%Y-%m-%d %H:%M')"
+          git pull --rebase --autostash -q || true
+          git push

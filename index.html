@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://chaekiji-relay.altarry2.workers.dev; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0b6b5c">
+<link rel="icon" href="data:,">
+<title>책이지 시험 이용 — 부천시립도서관 책 찾기</title>
+<meta name="description" content="직원 시험 이용 화면입니다. 부천시립도서관 16곳에서 책을 찾아 누리집 상호대차 신청 화면까지 안내합니다. 공식 서비스가 아닙니다.">
+<!--
+  책이지 시험 이용 화면(D안) v0.1.0 — 2026. 10. 18.
+  - 판정: 책이지 원격 상담 비서(중계 /mcp의 consult_request)를 그대로 부른다. 이 화면은 판정을 새로 만들지 않고, 결과를 이용자 말로 옮기기만 한다.
+  - 다른 판본 목록: 중계 /search(정보나루 srchBooks). 다른 판본은 판정하지 않고 누리집 그 판본 화면으로 잇는다.
+  - 신청은 하지 않는다(모의 신청 없음). 마지막 단계는 누리집 ISBN 화면 — 이용자가 로그인해 직접 신청.
+  - 이름·회원번호를 받지 않는다. 검색어를 기록으로 남기지 않는다. 기기에는 고른 받을 도서관만 기억한다.
+  - 규정 문장은 부천시립도서관 누리집 상호대차 안내(최종수정 2026. 8. 10.)와 책이지 설정(server/config/bucheon.yaml)에 맞춘다.
+-->
+<style>
+:root{
+  --ink:#1d2b28; --ink2:#46554f; --ink3:#5f6b67;
+  --paper:#ffffff; --wash:#eef3f1; --rule:#d5dedb; --field:#7d8a86;
+  --brand:#0b6b5c; --brand-d:#085347;
+  --busy:#93500f; --busy-wash:#fbefe2;
+  --none:#aab4b1;
+  --band:#fff1bf; --band-ink:#4a3800;
+  --focus:#1a5fd6;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:17px/1.6 "Pretendard GOV","Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕","Noto Sans KR",system-ui,sans-serif;
+  word-break:keep-all;overflow-wrap:break-word}
+.band{background:var(--band);color:var(--band-ink);font-size:15px;line-height:1.5;padding:10px 16px}
+.band p{max-width:34rem;margin:0 auto}
+.wrap{max-width:34rem;margin:0 auto;padding:0 16px}
+h1{font-size:24px;line-height:1.3;margin:26px 0 4px;letter-spacing:-.01em}
+.lede{margin:0 0 18px;color:var(--ink2)}
+label{display:block;font-weight:600;margin:14px 0 6px}
+.row{display:flex;gap:8px}
+input,select{font:inherit;color:inherit;width:100%;min-height:52px;padding:11px 14px;border:1.5px solid var(--field);border-radius:10px;background:#fff}
+select{appearance:none;-webkit-appearance:none;padding-right:40px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);
+  background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%;background-size:6px 6px;background-repeat:no-repeat}
+input::placeholder{color:#7a8683}
+input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,h2:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.mic{flex:0 0 52px;height:52px;border-radius:10px;border:1.5px solid var(--field);background:#fff;color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0}
+.mic svg{width:22px;height:22px}
+.mic.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.go{margin-top:18px;width:100%;min-height:54px;border:0;border-radius:12px;background:var(--ink);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.go:disabled{opacity:.6;cursor:progress}
+.note{min-height:0;margin:8px 0 0;font-size:15px;color:var(--ink2)}
+.note:empty{display:none}
+
+.out{margin:28px 0 0;border-top:2px solid var(--ink);padding-top:20px}
+.out:empty{display:none}
+.verdict{font-size:23px;line-height:1.35;margin:0 0 6px;font-weight:700;letter-spacing:-.01em}
+.sub{margin:0 0 16px;color:var(--ink2)}
+.book{margin:0 0 16px}
+.book .t{font-size:19px;font-weight:650;line-height:1.4;margin:0}
+.book .st{margin:0;color:var(--ink2);font-size:15px;line-height:1.45}
+.book .m{margin:2px 0 0;color:var(--ink2);font-size:15px}
+
+.shelf{margin:4px 0 8px}
+.r8{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;align-items:end;height:112px}
+.sp{display:flex;justify-content:center;align-items:flex-start;padding-top:8px;height:100%;border-radius:4px 4px 1px 1px;font-size:15px;line-height:1.08;
+  background:var(--wash);border:2px solid var(--wash);color:var(--ink3);
+  transition:background-color .35s ease,border-color .35s ease,color .35s ease,height .35s ease;transition-delay:calc(var(--i) * 28ms)}
+.sp .nm{writing-mode:vertical-rl;text-orientation:upright;letter-spacing:.05em}
+.sp.ok{background:var(--brand);border-color:var(--brand);color:#fff}
+.sp.busy{background:repeating-linear-gradient(135deg,var(--busy-wash) 0 5px,#fff 5px 10px);border-color:var(--busy);color:var(--busy)}
+.sp.none{background:#fff;border:2px dashed var(--none);color:var(--ink3);height:84%}
+.sp.me{outline:3px solid var(--ink);outline-offset:2px}
+.plank{height:6px;background:var(--ink);border-radius:2px;margin:0 -3px 12px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;margin:0 0 8px;padding:0;list-style:none;font-size:15px}
+.sw{display:inline-block;width:13px;height:17px;border-radius:2px;vertical-align:-3px;margin-right:6px;border:2px solid}
+.sw.ok{background:var(--brand);border-color:var(--brand)}
+.sw.busy{background:repeating-linear-gradient(135deg,var(--busy-wash) 0 3px,#fff 3px 6px);border-color:var(--busy)}
+.sw.none{background:#fff;border-style:dashed;border-color:var(--none)}
+.sw.me{background:#fff;border:2px solid var(--wash);outline:2px solid var(--ink);outline-offset:1px}
+.lists{margin:0 0 6px}
+.lists div{margin:0 0 4px}
+.lists dt{display:inline;font-weight:650}
+.lists dd{display:inline;margin:0 0 0 6px;color:var(--ink2)}
+.basis{font-size:15px;color:var(--ink3);margin:0 0 18px}
+.mine{font-size:15px;margin:0 0 8px}
+
+.cta{display:block;text-align:center;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;border-radius:12px;padding:15px 16px;min-height:56px}
+.cta:hover{background:var(--brand-d)}
+.cta.alt{background:#fff;color:var(--brand);border:2px solid var(--brand)}
+.cta.alt:hover{background:var(--wash)}
+.newwin{font-size:15px;color:var(--ink3);text-align:center;margin:6px 0 18px}
+.steps{list-style:none;padding:0;margin:0 0 18px;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding-left:34px;margin:0 0 8px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:25px;height:25px;border-radius:50%;background:var(--wash);font-weight:700;font-size:15px;display:grid;place-items:center}
+.rules h3,.ed h3{font-size:17px;margin:0 0 6px}
+.rules ul{margin:0 0 18px;padding-left:20px}
+.rules li{margin:0 0 4px}
+details.ed{border-top:1px solid var(--rule);padding:12px 0 2px}
+details.ed summary{font-weight:600;cursor:pointer;min-height:32px}
+details.ed ul{list-style:none;padding:0;margin:8px 0 6px}
+details.ed li{padding:8px 0;border-bottom:1px solid var(--rule)}
+details.ed li a{color:var(--brand);font-weight:600}
+details.ed p{font-size:15px;color:var(--ink3);margin:6px 0 10px}
+.memo{font-size:15px;color:var(--ink2);background:var(--wash);border-radius:10px;padding:12px 14px;margin:18px 0 0}
+.retry{margin:4px 0 12px;min-height:48px;padding:10px 18px;border-radius:10px;border:2px solid var(--ink);background:#fff;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.loading{color:var(--ink2);margin:0 0 10px}
+
+.foot{font-size:15px;color:var(--ink3);margin:40px auto 32px;border-top:1px solid var(--rule);padding-top:14px}
+.foot p{margin:0 0 6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="band"><p>직원 시험 이용 화면이에요. 공식 서비스가 아니고, 신청은 누리집에서 본인이 직접 해요.</p></header>
+<main class="wrap">
+  <header>
+    <h1>책이지 시험 이용</h1>
+    <p class="lede">부천시립도서관 16곳에서 책을 찾고, 상호대차 신청 화면까지 안내해요.</p>
+  </header>
+  <form id="f" autocomplete="off" novalidate>
+    <label for="q">책 이름</label>
+    <div class="row">
+      <input id="q" name="q" type="search" enterkeyhint="search" maxlength="80" placeholder="예: 나미야 잡화점의 기적">
+      <button type="button" id="mic" class="mic" hidden aria-label="말로 찾기" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      </button>
+    </div>
+    <label for="pickup">받을 도서관</label>
+    <select id="pickup"></select>
+    <button type="submit" id="go" class="go">찾기</button>
+    <p id="note" class="note" aria-live="polite"></p>
+  </form>
+  <section id="out" class="out" aria-live="polite" aria-busy="false"></section>
+</main>
+<footer class="wrap foot">
+  <p>책이지 시험 이용 화면 v0.1.0 (2026.&nbsp;10.&nbsp;18.)</p>
+  <p>책 정보와 소장·대출 상태는 도서관 정보나루 공개 데이터이며 전날 기준이에요. 판정은 책이지 상담 비서가 해요.</p>
+  <p>책이지는 신청을 대신하지 않아요. 이름이나 회원번호를 받지 않고, 찾은 책을 기록으로 남기지 않아요. 말로 찾기는 쓰시는 브라우저의 음성 인식을 써요.</p>
+  <p>문제가 생기면 시험 담당자에게 알려 주세요.</p>
+</footer>
+<script>
+"use strict";
+const RELAY = "https://chaekiji-relay.altarry2.workers.dev";
+const OFFICIAL = "https://alpasq.bcl.go.kr/";
+const LIBS = ["꿈빛","꿈여울","도당","동화","별빛마루","북부","상동","송내","수주","심곡","역곡","역곡밝은","오정","원미","책마루","한울빛"];
+const POINTS = ["상동역 칙칙폭폭","숲속","꿈꾸는새싹","약대신나는가족","시정담벼락","신중동역 칙칙폭폭","소사칙칙폭폭","해밀"];   // 누리집 「상호대차 신청」 받을 곳 목록의 작은도서관(2026. 10. 18. 담당자 화면)
+const KEY = "chaekiji.pilot.pickup";
+const $ = id => document.getElementById(id);
+const form = $("f"), q = $("q"), sel = $("pickup"), go = $("go"), out = $("out"), note = $("note"), mic = $("mic");
+
+function h(tag, attrs, ...kids) {                        // 응답 글자는 모두 textContent로만 넣는다(HTML로 해석하지 않음)
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") e.className = v;
+    else if (k === "text") e.textContent = v;
+    else e.setAttribute(k, v === true ? "" : String(v));
+  }
+  for (const k of kids.flat()) { if (k == null || k === false) continue; e.append(k.nodeType ? k : document.createTextNode(String(k))); }
+  return e;
+}
+const libName = n => POINTS.includes(n) ? n + " 작은도서관" : n + "도서관";
+const isPoint = n => POINTS.includes(n);
+const fmtDate = s => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); return m ? `${m[1]}.\u00a0${+m[2]}.\u00a0${+m[3]}.` : ""; };   // 날짜 안에서 줄이 바뀌지 않게(붙임 칸)
+const safeLink = u => (typeof u === "string" && u.startsWith(OFFICIAL)) ? u : null;
+const keywordLink = s => OFFICIAL + "search/keyword/" + encodeURIComponent(String(s || "").trim().slice(0, 80));
+const baseTitle = t => String(t || "").split(/\s[:=]|[:=(（]/)[0].trim() || String(t || "");
+
+// 받을 도서관 고르기 — 기기에는 이것만 기억한다
+(function initPickup() {
+  const g1 = h("optgroup", { label: "시립도서관 16곳" }, LIBS.map(n => h("option", { value: n, text: libName(n) })));
+  const g2 = h("optgroup", { label: "작은도서관 8곳" }, POINTS.map(n => h("option", { value: n, text: libName(n) })));
+  sel.append(g1, g2);
+  let saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  sel.value = (saved && (LIBS.includes(saved) || POINTS.includes(saved))) ? saved : "상동";
+  sel.addEventListener("change", () => { try { localStorage.setItem(KEY, sel.value); } catch (e) {} });
+})();
+
+async function withTimeout(url, opts, ms) {
+  const ctl = typeof AbortController !== "undefined" ? new AbortController() : null;
+  const t = ctl ? setTimeout(() => ctl.abort(), ms) : null;
+  try { return await fetch(url, Object.assign({}, opts, ctl ? { signal: ctl.signal } : {})); }
+  finally { if (t) clearTimeout(t); }
+}
+let rpcId = 0;
+async function consult(utterance, pickup) {               // 원격 상담 비서 — 판정은 여기서 받는다
+  let r;
+  try {
+    r = await withTimeout(RELAY + "/mcp", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json, text/event-stream" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: ++rpcId, method: "tools/call", params: { name: "consult_request", arguments: { utterance, pickup, lang: "ko" } } }) }, 20000);
+  } catch (e) { return { ok: false, kind: (e && e.name === "AbortError") ? "timeout" : "network" }; }
+  if (!r.ok) return { ok: false, kind: r.status === 429 ? "limit" : "network" };
+  let j; try { j = await r.json(); } catch (e) { return { ok: false, kind: "network" }; }
+  const res = j && j.result, text = res && res.content && res.content[0] && res.content[0].text;
+  if (!res || typeof text !== "string") return { ok: false, kind: "network" };
+  if (res.isError) return { ok: false, kind: text.includes("한도") ? "limit" : "error" };
+  try { return { ok: true, out: JSON.parse(text) }; } catch (e) { return { ok: false, kind: "network" }; }
+}
+async function editions(title) {                          // 같은 제목의 다른 판본(판정하지 않음) — 실패하면 조용히 생략
+  try {
+    const r = await withTimeout(RELAY + "/search?q=" + encodeURIComponent(title), {}, 10000);
+    if (!r.ok) return [];
+    const j = await r.json();
+    return Array.isArray(j.docs) ? j.docs.filter(d => d && /^97[89]\d{10}$/.test(String(d.isbn13 || ""))) : [];
+  } catch (e) { return []; }
+}
+
+function shelf(av, pickup, pre) {
+  const ok = new Set((av && av.available_at) || []), busy = new Set((av && av.loaned_at) || []);
+  const nNone = LIBS.filter(n => !ok.has(n) && !busy.has(n)).length;
+  const box = h("div", { class: "shelf", role: "img",
+    "aria-label": pre ? "16개 도서관을 확인하는 중" : `부천시립도서관 16곳 가운데 대출 가능 ${ok.size}곳, 대출 중 ${busy.size}곳, 없음 ${nNone}곳` });
+  [LIBS.slice(0, 8), LIBS.slice(8)].forEach(row => {
+    const r = h("div", { class: "r8" });
+    row.forEach((n, i) => {
+      const st = pre ? "" : ok.has(n) ? "ok" : busy.has(n) ? "busy" : "none";
+      const fin = pre ? null : st + (n === pickup ? " me" : "");   // 결과가 오면 한 칸씩 불이 들어온다(lightUp)
+      r.append(h("span", { class: "sp", style: "--i:" + i, "data-lib": n, "data-st": st || "pre", "data-final": fin }, h("span", { class: "nm", text: n })));
+    });
+    box.append(r, h("div", { class: "plank", "aria-hidden": "true" }));
+  });
+  return box;
+}
+function lightUp(root) {
+  const els = root.querySelectorAll(".sp[data-final]");
+  if (!els.length) return;
+  requestAnimationFrame(() => requestAnimationFrame(() => els.forEach(el => { el.className = "sp " + el.dataset.final; })));
+}
+function lists(av) {
+  const ok = av.available_at || [], busy = av.loaned_at || [], none = LIBS.filter(n => !ok.includes(n) && !busy.includes(n));
+  const line = (cls, label, arr) => h("div", {}, h("dt", {}, h("span", { class: "sw " + cls, "aria-hidden": "true" }), `${label} ${arr.length}곳`), h("dd", { text: arr.length ? arr.join(", ") : "없음" }));
+  return h("dl", { class: "lists" }, line("ok", "대출 가능", ok), line("busy", "대출 중", busy), line("none", "없음", none));
+}
+const cleanAuthor = a => String(a || "").replace(/^\s*(지은이|저자|글|지음)\s*[:：]\s*/, "").replace(/\s*;\s*/g, ", ").trim();
+function splitTitle(t) {                                   // 정보나루 서명 「채식주의자:한강 연작소설」 → 본서명과 부제
+  const s = String(t || "").trim(), parts = s.split(/\s*[:：]\s*/);
+  return { main: parts[0].trim() || s, sub: parts.slice(1).join(" : ").trim() };
+}
+function bookBlock(b) {
+  const tt = splitTitle(b.title), meta = [cleanAuthor(b.author), b.publisher, b.year].filter(Boolean).join(", ");
+  return h("div", { class: "book" }, h("p", { class: "t", text: tt.main }), tt.sub ? h("p", { class: "st", text: tt.sub }) : null,
+    meta ? h("p", { class: "m", text: meta }) : null, h("p", { class: "m", text: "ISBN " + b.isbn13 }));
+}
+function cta(href, label, alt) {
+  return [h("a", { class: "cta" + (alt ? " alt" : ""), href, target: "_blank", rel: "noopener noreferrer", "data-cta": "1" }, label),
+          h("p", { class: "newwin", text: "새 창에서 부천시립도서관 누리집이 열려요." })];
+}
+function verdict(text) { return h("h2", { class: "verdict", tabindex: "-1", id: "verdict", text }); }
+function steps(items) { return h("ol", { class: "steps" }, items.map(t => h("li", { text: t }))); }
+function rules(items) { return h("div", { class: "rules" }, h("h3", { text: "알아 둘 것" }), h("ul", {}, items.map(t => h("li", { text: t })))); }
+const memo = () => h("p", { class: "memo", text: "시험에 참여 중이면 기록지에 한 줄 적어 주세요. 책 제목은 적지 않아요." });
+
+const RULE_FREE = "관내 상호대차는 무료예요.";
+const RULE_ETA = "평일에는 신청한 다음 날 도착해요. 금·토요일에 신청하면 월·화요일에 도착해요.";
+const RULE_HOLD = "도착 문자를 받으면 도착한 날을 포함해 3일 안에 찾아가세요.";
+const RULE_POINT = "작은도서관으로 받으면 도착일과 보관 기한은 그 도서관에 확인하세요.";
+const RULE_BLOCK = "기한이 지나면 자동 반납되고, 7일 동안 상호대차를 신청할 수 없어요.";
+const RULE_MEMBER = "대출 한도와 연체 여부는 누리집에서 신청할 때 확인돼요.";
+
+function render(res, utterance, pickup) {
+  const P = libName(pickup), nodes = [];
+  if (!res.ok) {
+    const msg = res.kind === "limit" ? ["잠깐 사이에 너무 많이 찾았어요", "10분쯤 뒤에 다시 찾아 주세요. 급하면 누리집에서 직접 찾을 수 있어요."]
+              : res.kind === "timeout" ? ["답이 늦어 찾기를 멈췄어요", "잠시 뒤 다시 찾아 주세요. 급하면 누리집에서 직접 찾을 수 있어요."]
+              : res.kind === "error" ? ["이 조건으로는 찾지 못했어요", "받을 도서관을 다시 고르고 찾아 주세요. 급하면 누리집에서 직접 찾을 수 있어요."]
+              : ["책이지 서버에 연결하지 못했어요", "인터넷 연결을 확인하고 다시 찾아 주세요. 급하면 누리집에서 직접 찾을 수 있어요."];
+    nodes.push(verdict(msg[0]), h("p", { class: "sub", text: msg[1] }),
+               h("button", { type: "button", class: "retry", "data-retry": "1", text: "다시 찾기" }), ...cta(keywordLink(utterance), "누리집에서 이 검색어로 찾기", true));
+    return nodes;
+  }
+  const o = res.out || {}, b = o.book, av = o.availability || {}, link = safeLink(o.official_link);
+  const date = fmtDate(av.asof), basis = date ? `정보나루 ${date} 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요.` : null;
+  const shelfBlock = (withLegend = true) => [shelf(av, pickup, false),
+    withLegend ? h("ul", { class: "legend", "aria-hidden": "true" },
+      h("li", {}, h("span", { class: "sw ok" }), "대출 가능"), h("li", {}, h("span", { class: "sw busy" }), "대출 중"), h("li", {}, h("span", { class: "sw none" }), "없음"),
+      LIBS.includes(pickup) ? h("li", {}, h("span", { class: "sw me" }), "받을 도서관") : null) : null,
+    lists(av), basis ? h("p", { class: "basis", text: basis }) : null];
+  const mineLine = () => {
+    if (isPoint(pickup)) return h("p", { class: "mine", text: `받을 곳은 ${P}이에요. 작은도서관은 아래 16곳에 들어 있지 않아요.` });
+    const st = av.at_pickup === "ok" ? "대출 가능" : av.at_pickup === "busy" ? "대출 중" : "없음";
+    return h("p", { class: "mine", text: `받을 도서관(${P}): ${st}` });
+  };
+
+  if (o.route === "visit" && b) {
+    nodes.push(verdict(`${P} 서가에 있어요`),
+      h("p", { class: "sub", text: "상호대차 없이 바로 빌릴 수 있어요. 받을 도서관에 있는 책은 상호대차로 신청할 수 없어요." }),
+      bookBlock(b), mineLine(), ...shelfBlock(), link ? cta(link, "누리집에서 이 책 보기") : null);
+  } else if (o.route === "ill" && b) {
+    const n = (av.available_at || []).length, from = o.from_lib ? libName(o.from_lib) : null;
+    nodes.push(verdict(`상호대차로 ${P}에서 받을 수 있어요`),
+      h("p", { class: "sub", text: (from ? `${from} 등 ${n}곳에 빌릴 수 있는 책이 있어요.` : `${n}곳에 빌릴 수 있는 책이 있어요.`)
+        + (av.at_pickup === "busy" ? " 받을 도서관의 책은 지금 대출 중이에요." : "") }),
+      bookBlock(b), mineLine(), ...shelfBlock(),
+      link ? cta(link, "누리집에서 이 책 신청하기") : null,
+      steps(["누리집에 로그인하세요.", "책 화면에서 「상호대차 신청」을 누르세요.", `받을 곳으로 ${P}을 고르세요.`]),
+      rules(isPoint(pickup) ? [RULE_FREE, RULE_POINT, RULE_BLOCK, RULE_MEMBER] : [RULE_FREE, RULE_ETA, RULE_HOLD, RULE_BLOCK, RULE_MEMBER]));
+  } else if (o.route === "reserve" && b) {
+    nodes.push(verdict("지금은 모두 대출 중이에요"),
+      h("p", { class: "sub", text: "누리집에서 예약해 두면, 책이 반납될 때 상호대차로 바꿔 신청할 수 있어요." }),
+      bookBlock(b), mineLine(), ...shelfBlock(),
+      link ? cta(link, "누리집에서 이 책 예약하기") : null,
+      steps(["누리집에 로그인하세요.", "책 화면에서 예약을 신청하세요.", "반납 알림을 받으면 상호대차로 바꿔 신청할 수 있어요."]));
+  } else if (o.route === "sea" && b) {
+    const nat = av.nation && typeof av.nation.found_count === "number" ? av.nation.found_count : null;
+    nodes.push(verdict("부천시립도서관에는 이 책이 없어요"),
+      h("p", { class: "sub", text: (nat ? `경기도의 다른 도서관 ${nat}곳에 있어요(정보나루, 전날 기준). ` : "")
+        + "다른 지역 도서관에서 빌리는 책바다는 따로 가입하고 사서 승인을 받아야 해요. 가까운 도서관 창구에 물어보세요." }),
+      bookBlock(b), ...shelfBlock(false));
+  } else if (o.route === "check" && b) {
+    nodes.push(verdict("지금은 소장 상태를 확인하지 못했어요"),
+      h("p", { class: "sub", text: "정보나루 연결이 원활하지 않거나 하루 조회 한도를 넘었을 수 있어요. 있다, 없다를 짐작하지 않을게요. 누리집에서 직접 확인하세요." }),
+      bookBlock(b), ...cta(link || keywordLink(b.title), "누리집에서 제목으로 찾기", true));
+  } else if (o.route === "check") {
+    nodes.push(verdict("지금은 책을 찾지 못했어요"),
+      h("p", { class: "sub", text: "정보나루에 연결되지 않았어요. 책이 없다는 뜻은 아니에요. 잠시 뒤 다시 찾거나 누리집에서 직접 찾아보세요." }),
+      h("button", { type: "button", class: "retry", "data-retry": "1", text: "다시 찾기" }), ...cta(keywordLink(utterance), "누리집에서 이 검색어로 찾기", true));
+  } else {
+    nodes.push(verdict("책을 찾지 못했어요"),
+      h("p", { class: "sub", text: "제목만 넣어 보세요. 부제를 빼거나 띄어쓰기를 바꾸면 찾을 때가 많아요." }),
+      ...cta(keywordLink(utterance), "누리집에서 이 검색어로 찾기", true));
+  }
+  if (b && o.route !== "check") nodes.push(h("div", { id: "eds" }));
+  nodes.push(memo());
+  return nodes.flat().filter(Boolean);
+}
+
+async function fillEditions(b, slot) {
+  if (!b || !slot) return;
+  const docs = (await editions(baseTitle(b.title))).filter(d => String(d.isbn13) !== String(b.isbn13));
+  if (!docs.length || !slot.isConnected) return;
+  const items = docs.slice(0, 4).map(d => h("li", {},
+    h("span", { text: [d.title, d.publisher, d.year].filter(Boolean).join(", ") }), h("br"),
+    h("a", { href: OFFICIAL + "search/keyword/" + d.isbn13, target: "_blank", rel: "noopener noreferrer", text: "누리집에서 이 판본 보기" })));
+  slot.replaceWith(h("details", { class: "ed" }, h("summary", { text: `같은 제목의 다른 판본 ${items.length}개` }),
+    h("p", { text: "위 판정은 이 화면에 나온 판본 기준이에요. 다른 판본의 소장 상태는 누리집에서 확인하세요." }), h("ul", {}, items)));
+}
+
+let busy = false;
+async function run() {
+  const utterance = q.value.trim(), pickup = sel.value;
+  if (!utterance) { note.textContent = "책 이름을 입력해 주세요."; q.focus(); return; }
+  if (busy) return;
+  busy = true; go.disabled = true; go.textContent = "찾는 중…"; note.textContent = "";
+  out.setAttribute("aria-busy", "true");
+  out.replaceChildren(h("p", { class: "loading", text: "16개 도서관을 확인하고 있어요." }), shelf({}, pickup, true));
+  const res = await consult(utterance, pickup);
+  out.replaceChildren(...render(res, utterance, pickup));
+  lightUp(out);
+  out.setAttribute("aria-busy", "false");
+  busy = false; go.disabled = false; go.textContent = "찾기";
+  const v = $("verdict"); if (v) v.focus({ preventScroll: false });
+  const r = out.querySelector("[data-retry]"); if (r) r.addEventListener("click", run);
+  if (res.ok && res.out && res.out.book) fillEditions(res.out.book, $("eds"));
+}
+form.addEventListener("submit", e => { e.preventDefault(); run(); });
+
+// 말로 찾기 — 브라우저가 지원할 때만 단추를 보인다
+(function initMic() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  mic.hidden = false;
+  let rec = null;
+  mic.addEventListener("click", () => {
+    if (rec) { try { rec.stop(); } catch (e) {} return; }
+    try { rec = new SR(); } catch (e) { note.textContent = "지금은 말로 찾을 수 없어요. 입력해 주세요."; return; }
+    rec.lang = "ko-KR"; rec.interimResults = false; rec.maxAlternatives = 1;
+    mic.classList.add("on"); mic.setAttribute("aria-pressed", "true"); note.textContent = "듣고 있어요. 책 이름을 말해 주세요.";
+    rec.onresult = e => { const t = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : ""; if (t) { q.value = t; note.textContent = ""; run(); } };
+    rec.onerror = e => { note.textContent = (e && (e.error === "not-allowed" || e.error === "service-not-allowed")) ? "마이크 사용을 허용해야 말로 찾을 수 있어요." : "잘 듣지 못했어요. 다시 말하거나 입력해 주세요."; };
+    rec.onend = () => { mic.classList.remove("on"); mic.setAttribute("aria-pressed", "false"); if (note.textContent.startsWith("듣고")) note.textContent = ""; rec = null; };
+    try { rec.start(); } catch (e) { note.textContent = "지금은 말로 찾을 수 없어요. 입력해 주세요."; mic.classList.remove("on"); rec = null; }
+  });
+})();
+</script>
+</body>
+</html>

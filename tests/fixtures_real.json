@@ -1,0 +1,53 @@
+{
+ "_note": "2026-10-18 실제 원격 상담 비서(claude.ai 커넥터로 부른 consult_request) 응답에서 화면이 쓰는 칸만 옮김. 실제 정보나루 서명·저자 표기(부제·「지은이:」)로 화면을 시험하려는 것",
+ "cases": [
+  {
+   "args": { "utterance": "채식주의자 빌리고 싶어요", "pickup": "상동" },
+   "out": {
+    "found": true, "route": "ill", "route_label": "관내 상호대차", "from_lib": "꿈여울",
+    "book": { "isbn13": "9788936433598", "title": "채식주의자:한강 연작소설", "author": "한강", "publisher": "창비", "year": "2007" },
+    "availability": { "at_pickup": "busy",
+     "available_at": ["꿈여울", "도당", "송내", "오정", "원미", "한울빛"],
+     "loaned_at": ["꿈빛", "동화", "별빛마루", "북부", "상동", "수주", "심곡", "책마루"],
+     "nation": null, "basis": "관내: 정보나루 bookExist(중계 · 2026-10-18 조회 · 전일 기준)", "asof": "2026-10-18" },
+    "official_link": "https://alpasq.bcl.go.kr/search/keyword/9788936433598"
+   }
+  },
+  {
+   "args": { "utterance": "작별하지 않는다", "pickup": "해밀" },
+   "out": {
+    "found": true, "route": "ill", "route_label": "관내 상호대차", "from_lib": "꿈빛",
+    "book": { "isbn13": "9788954682152", "title": "작별하지 않는다 :한강 장편소설 ", "author": "지은이: 한강", "publisher": "문학동네", "year": "2021" },
+    "availability": { "at_pickup": "point",
+     "available_at": ["꿈빛", "꿈여울", "도당", "동화", "별빛마루", "북부", "상동", "송내", "심곡", "역곡", "역곡밝은", "오정", "책마루", "한울빛"],
+     "loaned_at": ["수주", "원미"],
+     "nation": null, "basis": "관내: 정보나루 bookExist(중계 · 2026-10-18 조회 · 전일 기준)", "asof": "2026-10-18" },
+    "official_link": "https://alpasq.bcl.go.kr/search/keyword/9788954682152"
+   }
+  },
+  {
+   "args": { "utterance": "불편한 편의점", "pickup": "상동" },
+   "out": {
+    "found": true, "route": "visit", "route_label": "바로 이용(수령관 서가에 있음)", "from_lib": "상동",
+    "book": { "isbn13": "9791161571188", "title": "불편한 편의점", "author": "김호연", "publisher": "나무옆의자", "year": "2021" },
+    "availability": { "at_pickup": "ok",
+     "available_at": ["꿈빛", "도당", "동화", "별빛마루", "북부", "상동", "송내", "수주", "심곡", "오정", "원미", "책마루"],
+     "loaned_at": ["꿈여울", "역곡", "역곡밝은", "한울빛"],
+     "nation": null, "basis": "관내: 정보나루 bookExist(매일 갱신 · 2026-10-18 조회 · 전일 기준)", "asof": "2026-10-18" },
+    "official_link": "https://alpasq.bcl.go.kr/search/keyword/9791161571188"
+   }
+  },
+  {
+   "args": { "utterance": "나미야 잡화점의 기적", "pickup": "상동역 칙칙폭폭" },
+   "out": {
+    "found": true, "route": "ill", "route_label": "관내 상호대차", "from_lib": "꿈여울",
+    "book": { "isbn13": "9788972756194", "title": "나미야 잡화점의 기적", "author": "히가시노 게이고", "publisher": "현대문학", "year": "2012" },
+    "availability": { "at_pickup": "point",
+     "available_at": ["꿈여울", "도당", "송내", "심곡", "오정", "원미", "한울빛"],
+     "loaned_at": ["꿈빛", "별빛마루", "북부", "상동", "수주", "역곡"],
+     "nation": null, "basis": "관내: 정보나루 bookExist(매일 갱신 · 2026-10-18 조회 · 전일 기준)", "asof": "2026-10-18" },
+    "official_link": "https://alpasq.bcl.go.kr/search/keyword/9788972756194"
+   }
+  }
+ ]
+}
