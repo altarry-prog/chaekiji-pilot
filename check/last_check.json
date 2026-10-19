@@ -1,5 +1,5 @@
 {
- "time": "2026-10-19 17:27 KST",
+ "time": "2026-10-19 18:05 KST",
  "page": "https://altarry-prog.github.io/chaekiji-pilot/",
  "repo_md5": "30e73e46fe48871aebe247dcb8977da6",
  "checks": [
@@ -9,7 +9,7 @@
    "detail": "30e73e46fe48871aebe247dcb8977da6"
   },
   {
-   "name": "「나미야 잡화점의 기적」 — 판정이 옴(485ms)",
+   "name": "「나미야 잡화점의 기적」 — 판정이 옴(491ms)",
    "pass": true,
    "detail": "상호대차로 상동도서관에서 받을 수 있어요"
   },
@@ -34,7 +34,7 @@
    "detail": "altarry-prog.github.io,chaekiji-relay.altarry2.workers.dev"
   },
   {
-   "name": "「불편한 편의점」 — 판정이 옴(297ms)",
+   "name": "「불편한 편의점」 — 판정이 옴(212ms)",
    "pass": true,
    "detail": "상동도서관 서가에 있어요"
   },
