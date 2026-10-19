@@ -1,0 +1,26 @@
+# 서지 검색 표본 수집(손으로만) — tools/search_samples.mjs. 결과를 check/search_samples.json에 커밋한다. 키·비밀값 없음.
+name: samples
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  samples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 서지 검색 표본
+        run: node tools/search_samples.mjs
+      - name: 기록
+        run: |
+          git config user.name "chaekiji-pilot-check"
+          git config user.email "pilot-check@users.noreply.github.com"
+          git add check/search_samples.json
+          git diff --cached --quiet && exit 0
+          git commit -m "서지 검색 표본 $(date -u -d '+9 hours' '+%Y-%m-%d %H:%M')"
+          git pull --rebase --autostash -q || true
+          git push
