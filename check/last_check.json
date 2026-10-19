@@ -1,0 +1,79 @@
+{
+ "time": "2026-10-19 17:27 KST",
+ "page": "https://altarry-prog.github.io/chaekiji-pilot/",
+ "repo_md5": "30e73e46fe48871aebe247dcb8977da6",
+ "checks": [
+  {
+   "name": "게시된 화면 = 저장소 index.html",
+   "pass": true,
+   "detail": "30e73e46fe48871aebe247dcb8977da6"
+  },
+  {
+   "name": "「나미야 잡화점의 기적」 — 판정이 옴(485ms)",
+   "pass": true,
+   "detail": "상호대차로 상동도서관에서 받을 수 있어요"
+  },
+  {
+   "name": "「나미야 잡화점의 기적」 — 누리집 링크가 그 책 ISBN 화면",
+   "pass": true,
+   "detail": "https://alpasq.bcl.go.kr/search/keyword/9788972756194"
+  },
+  {
+   "name": "「나미야 잡화점의 기적」 — 선반 16칸이 모두 상태를 가짐",
+   "pass": true,
+   "detail": "busy,ok,ok,none,busy,busy,busy,ok,busy,ok,busy,none,ok,ok,none,ok"
+  },
+  {
+   "name": "「나미야 잡화점의 기적」 — 화면 오류·CSP 위반 0",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "「나미야 잡화점의 기적」 — 부르는 곳은 게시 화면과 책이지 중계뿐",
+   "pass": true,
+   "detail": "altarry-prog.github.io,chaekiji-relay.altarry2.workers.dev"
+  },
+  {
+   "name": "「불편한 편의점」 — 판정이 옴(297ms)",
+   "pass": true,
+   "detail": "상동도서관 서가에 있어요"
+  },
+  {
+   "name": "「불편한 편의점」 — 누리집 링크가 그 책 ISBN 화면",
+   "pass": true,
+   "detail": "https://alpasq.bcl.go.kr/search/keyword/9791161571188"
+  },
+  {
+   "name": "「불편한 편의점」 — 선반 16칸이 모두 상태를 가짐",
+   "pass": true,
+   "detail": "busy,busy,ok,ok,ok,ok,ok,ok,ok,ok,busy,busy,ok,ok,ok,busy"
+  },
+  {
+   "name": "「불편한 편의점」 — 화면 오류·CSP 위반 0",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "「불편한 편의점」 — 부르는 곳은 게시 화면과 책이지 중계뿐",
+   "pass": true,
+   "detail": "altarry-prog.github.io,chaekiji-relay.altarry2.workers.dev"
+  }
+ ],
+ "deployed_md5": "30e73e46fe48871aebe247dcb8977da6",
+ "9788972756194": {
+  "verdict": "상호대차로 상동도서관에서 받을 수 있어요",
+  "ok": 7,
+  "busy": 6,
+  "none": 3,
+  "basis": "정보나루 2026. 10. 19. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
+ },
+ "9791161571188": {
+  "verdict": "상동도서관 서가에 있어요",
+  "ok": 11,
+  "busy": 5,
+  "none": 0,
+  "basis": "정보나루 2026. 10. 19. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
+ },
+ "passed": 11,
+ "total": 11
+}
