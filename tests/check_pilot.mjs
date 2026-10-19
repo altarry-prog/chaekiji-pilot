@@ -199,6 +199,36 @@ console.log("── 예약 권장 · 책바다 · 확인 불가 · 못 찾음");
   ok(errs.length === 0, "화면 오류 0 " + errs.join(";"));
   await ctx.close(); }
 
+console.log("── v0.1.1 · 같은 제목 다른 책 · 판본 보정 · 못 고른 경우의 후보(엔진 10. 19. 출력)");
+{ const { ctx, pg, errs } = await page();
+  const oa = FX.consult.sea_alt.out, e = oa.other_editions[0];
+  await ask(pg, "문헌정보학개론 김수경", "상동");
+  ok((await text(pg, "#verdict")) === "부천시립도서관에는 이 판이 없어요", "판본 보정 — 고른 판이 관내에 없으면 「이 판이 없어요」(「이 책」이라 하지 않음)");
+  ok((await text(pg, "#out .alt h3")) === "같은 책의 다른 판은 부천시립도서관에 있어요" && (await text(pg, "#out .alt p")) === "태일사 2024년 판 — 상동도서관 서가에 있어요.",
+     "다른 판의 출판사·연도와 소장(받을 도서관 서가) — 엔진 other_editions 그대로");
+  ok(await pg.$eval("#out .alt a[data-cta]", a => a.getAttribute("href")) === e.official_link && e.official_link.endsWith("/" + e.isbn13) &&
+     (await text(pg, "#out .alt .fine")).includes("번역이나 개정 내용이 다를 수 있어요"), "그 판의 누리집 화면(ISBN)으로 · 판이 다르면 내용이 다를 수 있다고 알림");
+  ok((await text(pg, "#out .others")).includes("양재한,차성종 공저, 2014") && (await text(pg, "#out .others")).includes("저자 이름을 함께 넣어"), "같은 제목·다른 저자의 책 3권 안내(엔진 same_title_others)");
+  let orp = await orphans(pg); ok(orp.length === 0, "한두 글자 줄 없음(판본 보정 화면) " + orp.join(" / "));
+  let ov = await overflow(pg); ok(!ov.page, "가로 넘침 없음(판본 보정 화면)");
+  let a = await axe(pg); ok(a === null || a.length === 0, "접근성(axe) 판본 보정 화면 위반 0" + (a && a.length ? " " + a.join(",") : ""));
+  await ask(pg, "문헌정보학개론", "상동");
+  ok((await text(pg, "#verdict")) === "부천시립도서관에는 이 책이 없어요" && !(await has(pg, "#out .alt")) && (await has(pg, "#out .others")) && !(await has(pg, "#out a[data-cta]")),
+     "다른 판이 없으면 그대로 「이 책이 없어요」 · 같은 제목 다른 책 안내만 · 신청 단추 없음");
+  await ask(pg, "흔한남매 9권", "송내");
+  const cands = FX.consult.unknown_cands.out.candidate_books;
+  ok((await text(pg, "#verdict")) === "책을 찾지 못했어요" && (await text(pg, "#out .sub")).includes("어느 책인지 고르지 못했어요") && (await text(pg, "#out .cands h3")) === "혹시 이 책인가요?",
+     "못 고른 경우 — 되묻기 안내와 후보 목록 제목");
+  ok(JSON.stringify(await pg.$$eval("#out .cands li a", l => l.map(x => x.getAttribute("href")))) === JSON.stringify(cands.map(c => "https://alpasq.bcl.go.kr/search/keyword/" + c.isbn13)) &&
+     await pg.$eval("#out a[data-cta]", x => x.getAttribute("href")) === "https://alpasq.bcl.go.kr/search/keyword/" + encodeURIComponent("흔한남매 9권"),
+     "후보 3권은 판정하지 않고 각 누리집 ISBN 화면으로 · 맨 아래는 이 검색어로 찾기");
+  ok(JSON.stringify(await pg.$$eval("#out .cands li span", l => l.map(x => x.textContent.split(",")[0]))) === JSON.stringify(["흔한남매 7권", "흔한남매 3권", "흔한남매 1권"]),
+     "후보에 권차를 함께 보임(같은 제목 여러 권을 가리게 — 엔진 candidate_books.vol)");
+  orp = await orphans(pg); ok(orp.length === 0, "한두 글자 줄 없음(후보 화면) " + orp.join(" / "));
+  a = await axe(pg); ok(a === null || a.length === 0, "접근성(axe) 후보 화면 위반 0" + (a && a.length ? " " + a.join(",") : ""));
+  ok(errs.length === 0, "화면 오류 0 " + errs.join(";"));
+  await ctx.close(); }
+
 console.log("── 오류 처리");
 { const { ctx, pg, errs } = await page({ mode: { limit: true } });
   await ask(pg, "나미야 잡화점의 기적", "상동");

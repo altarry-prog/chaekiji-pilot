@@ -12,7 +12,9 @@
 <title>책이지 시험 이용 — 부천시립도서관 책 찾기</title>
 <meta name="description" content="직원 시험 이용 화면입니다. 부천시립도서관 16곳에서 책을 찾아 누리집 상호대차 신청 화면까지 안내합니다. 공식 서비스가 아닙니다.">
 <!--
-  책이지 시험 이용 화면(D안) v0.1.0 — 2026. 10. 18.
+  책이지 시험 이용 화면(D안) v0.1.1 — 2026. 10. 19.(v0.1.0 — 10. 18.)
+  - v0.1.1: 엔진이 돌려주는 세 가지를 화면에도 보인다 — 같은 제목의 다른 책(저자가 다름), 못 고른 경우의 후보(되묻기),
+    고른 판이 관내에 없을 때 관내에 있는 같은 책의 다른 판(판본 보정). 판정은 여전히 엔진 그대로.
   - 판정: 책이지 원격 상담 비서(중계 /mcp의 consult_request)를 그대로 부른다. 이 화면은 판정을 새로 만들지 않고, 결과를 이용자 말로 옮기기만 한다.
   - 다른 판본 목록: 중계 /search(정보나루 srchBooks). 다른 판본은 판정하지 않고 누리집 그 판본 화면으로 잇는다.
   - 신청은 하지 않는다(모의 신청 없음). 마지막 단계는 누리집 ISBN 화면 — 이용자가 로그인해 직접 신청.
@@ -106,6 +108,15 @@ details.ed li{padding:8px 0;border-bottom:1px solid var(--rule)}
 details.ed li a{color:var(--brand);font-weight:600}
 details.ed p{font-size:15px;color:var(--ink3);margin:6px 0 10px}
 .memo{font-size:15px;color:var(--ink2);background:var(--wash);border-radius:10px;padding:12px 14px;margin:18px 0 0}
+.others{font-size:15px;color:var(--ink2);margin:-8px 0 16px}
+.alt{border:2px solid var(--brand);border-radius:12px;padding:12px 14px 2px;margin:0 0 18px}
+.alt h3,.cands h3{font-size:17px;margin:0 0 6px}
+.alt p{margin:0 0 10px}
+.alt .fine{font-size:15px;color:var(--ink3)}
+.cands{margin:0 0 16px}
+.cands ul{list-style:none;padding:0;margin:8px 0 6px}
+.cands li{padding:8px 0;border-bottom:1px solid var(--rule)}
+.cands li a{color:var(--brand);font-weight:600}
 .retry{margin:4px 0 12px;min-height:48px;padding:10px 18px;border-radius:10px;border:2px solid var(--ink);background:#fff;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
 .loading{color:var(--ink2);margin:0 0 10px}
 
@@ -169,6 +180,7 @@ const fmtDate = s => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); retu
 const safeLink = u => (typeof u === "string" && u.startsWith(OFFICIAL)) ? u : null;
 const keywordLink = s => OFFICIAL + "search/keyword/" + encodeURIComponent(String(s || "").trim().slice(0, 80));
 const baseTitle = t => String(t || "").split(/\s[:=]|[:=(（]/)[0].trim() || String(t || "");
+const volText = v => { const d = String(v == null ? "" : v).replace(/[^0-9]/g, "").replace(/^0+/, ""); return d ? d + "권" : String(v == null ? "" : v).trim(); };   // [v0.1.1] 「7」 → 「7권」
 
 // 받을 도서관 고르기 — 기기에는 이것만 기억한다
 (function initPickup() {
@@ -242,7 +254,7 @@ function splitTitle(t) {                                   // 정보나루 서�
 }
 function bookBlock(b) {
   const tt = splitTitle(b.title), meta = [cleanAuthor(b.author), b.publisher, b.year].filter(Boolean).join(", ");
-  return h("div", { class: "book" }, h("p", { class: "t", text: tt.main }), tt.sub ? h("p", { class: "st", text: tt.sub }) : null,
+  return h("div", { class: "book" }, h("p", { class: "t", text: tt.main + (b.vol ? " " + volText(b.vol) : "") }), tt.sub ? h("p", { class: "st", text: tt.sub }) : null,
     meta ? h("p", { class: "m", text: meta }) : null, h("p", { class: "m", text: "ISBN " + b.isbn13 }));
 }
 function cta(href, label, alt) {
@@ -261,6 +273,17 @@ const RULE_POINT = "작은도서관으로 받으면 도착일과 보관 기한�
 const RULE_BLOCK = "기한이 지나면 자동 반납되고, 7일 동안 상호대차를 신청할 수 없어요.";
 const RULE_MEMBER = "대출 한도와 연체 여부는 누리집에서 신청할 때 확인돼요.";
 
+function altBlock(e, pickup) {                              // [v0.1.1] 같은 책의 다른 판(엔진 other_editions) — 판정은 하지 않고 소장만 옮긴다
+  const ok = Array.isArray(e.available_at) ? e.available_at : [], busy = Array.isArray(e.loaned_at) ? e.loaned_at : [];
+  const ed = [e.publisher, e.year ? e.year + "년" : ""].filter(Boolean).join(" ") || "ISBN " + e.isbn13;
+  const where = ok.includes(pickup) ? `${libName(pickup)} 서가에 있어요.` : ok.length ? `${libName(ok[0])} 등 ${ok.length}곳에서 빌릴 수 있어요.`
+              : `${busy.length}곳에 있지만 지금은 모두 대출 중이에요.`;
+  const lk = safeLink(e.official_link) || OFFICIAL + "search/keyword/" + e.isbn13;
+  return h("div", { class: "alt" }, h("h3", { text: "같은 책의 다른 판은 부천시립도서관에 있어요" }),
+    h("p", { text: `${ed} 판 — ${where}` }),
+    h("p", { class: "fine", text: "출판사·연도가 달라도 괜찮으면 그 판으로 신청하세요. 번역이나 개정 내용이 다를 수 있어요." }),
+    ...cta(lk, "누리집에서 그 판 보기", true));
+}
 function render(res, utterance, pickup) {
   const P = libName(pickup), nodes = [];
   if (!res.ok) {
@@ -285,31 +308,35 @@ function render(res, utterance, pickup) {
     return h("p", { class: "mine", text: `받을 도서관(${P}): ${st}` });
   };
 
+  const others = Array.isArray(o.same_title_others) ? o.same_title_others : [];      // [v0.1.1] 같은 제목·다른 저자의 책 — 엔진이 고른 책을 밝히고 확인을 청한다
+  const othersNote = others.length ? h("p", { class: "others", text: `같은 제목의 다른 책도 있어요(${others.map(x => [cleanAuthor(x.author), x.year].filter(Boolean).join(", ")).join(" / ")}). `
+    + "찾는 책의 저자가 다르면 저자 이름을 함께 넣어 다시 찾아 주세요." }) : null;
   if (o.route === "visit" && b) {
     nodes.push(verdict(`${P} 서가에 있어요`),
       h("p", { class: "sub", text: "상호대차 없이 바로 빌릴 수 있어요. 받을 도서관에 있는 책은 상호대차로 신청할 수 없어요." }),
-      bookBlock(b), mineLine(), ...shelfBlock(), link ? cta(link, "누리집에서 이 책 보기") : null);
+      bookBlock(b), othersNote, mineLine(), ...shelfBlock(), link ? cta(link, "누리집에서 이 책 보기") : null);
   } else if (o.route === "ill" && b) {
     const n = (av.available_at || []).length, from = o.from_lib ? libName(o.from_lib) : null;
     nodes.push(verdict(`상호대차로 ${P}에서 받을 수 있어요`),
       h("p", { class: "sub", text: (from ? `${from} 등 ${n}곳에 빌릴 수 있는 책이 있어요.` : `${n}곳에 빌릴 수 있는 책이 있어요.`)
         + (av.at_pickup === "busy" ? " 받을 도서관의 책은 지금 대출 중이에요." : "") }),
-      bookBlock(b), mineLine(), ...shelfBlock(),
+      bookBlock(b), othersNote, mineLine(), ...shelfBlock(),
       link ? cta(link, "누리집에서 이 책 신청하기") : null,
       steps(["누리집에 로그인하세요.", "책 화면에서 「상호대차 신청」을 누르세요.", `받을 곳으로 ${P}을 고르세요.`]),
       rules(isPoint(pickup) ? [RULE_FREE, RULE_POINT, RULE_BLOCK, RULE_MEMBER] : [RULE_FREE, RULE_ETA, RULE_HOLD, RULE_BLOCK, RULE_MEMBER]));
   } else if (o.route === "reserve" && b) {
     nodes.push(verdict("지금은 모두 대출 중이에요"),
       h("p", { class: "sub", text: "누리집에서 예약해 두면, 책이 반납될 때 상호대차로 바꿔 신청할 수 있어요." }),
-      bookBlock(b), mineLine(), ...shelfBlock(),
+      bookBlock(b), othersNote, mineLine(), ...shelfBlock(),
       link ? cta(link, "누리집에서 이 책 예약하기") : null,
       steps(["누리집에 로그인하세요.", "책 화면에서 예약을 신청하세요.", "반납 알림을 받으면 상호대차로 바꿔 신청할 수 있어요."]));
   } else if (o.route === "sea" && b) {
     const nat = av.nation && typeof av.nation.found_count === "number" ? av.nation.found_count : null;
-    nodes.push(verdict("부천시립도서관에는 이 책이 없어요"),
+    const alt = (Array.isArray(o.other_editions) ? o.other_editions : []).filter(e => e && /^97[89]\d{10}$/.test(String(e.isbn13 || "")))[0];   // [v0.1.1] 판본 보정 — 같은 책의 다른 판이 관내에 있음
+    nodes.push(verdict(alt ? "부천시립도서관에는 이 판이 없어요" : "부천시립도서관에는 이 책이 없어요"),
       h("p", { class: "sub", text: (nat ? `경기도의 다른 도서관 ${nat}곳에 있어요(정보나루, 전날 기준). ` : "")
         + "다른 지역 도서관에서 빌리는 책바다는 따로 가입하고 사서 승인을 받아야 해요. 가까운 도서관 창구에 물어보세요." }),
-      bookBlock(b), ...shelfBlock(false));
+      bookBlock(b), othersNote, alt ? altBlock(alt, pickup) : null, ...shelfBlock(false));
   } else if (o.route === "check" && b) {
     nodes.push(verdict("지금은 소장 상태를 확인하지 못했어요"),
       h("p", { class: "sub", text: "정보나루 연결이 원활하지 않거나 하루 조회 한도를 넘었을 수 있어요. 있다, 없다를 짐작하지 않을게요. 누리집에서 직접 확인하세요." }),
@@ -319,8 +346,13 @@ function render(res, utterance, pickup) {
       h("p", { class: "sub", text: "정보나루에 연결되지 않았어요. 책이 없다는 뜻은 아니에요. 잠시 뒤 다시 찾거나 누리집에서 직접 찾아보세요." }),
       h("button", { type: "button", class: "retry", "data-retry": "1", text: "다시 찾기" }), ...cta(keywordLink(utterance), "누리집에서 이 검색어로 찾기", true));
   } else {
+    const cands = (Array.isArray(o.candidate_books) ? o.candidate_books : []).filter(c => c && /^97[89]\d{10}$/.test(String(c.isbn13 || ""))).slice(0, 3);   // [v0.1.1] 못 고른 경우의 후보
     nodes.push(verdict("책을 찾지 못했어요"),
-      h("p", { class: "sub", text: "제목만 넣어 보세요. 부제를 빼거나 띄어쓰기를 바꾸면 찾을 때가 많아요." }),
+      h("p", { class: "sub", text: cands.length ? "비슷한 책이 여럿이라 어느 책인지 고르지 못했어요. 저자 이름이나 몇 권인지를 함께 넣어 다시 찾아 주세요."
+                                          : "제목만 넣어 보세요. 부제를 빼거나 띄어쓰기를 바꾸면 찾을 때가 많아요." }),
+      cands.length ? h("div", { class: "cands" }, h("h3", { text: "혹시 이 책인가요?" }),
+        h("ul", {}, cands.map(c => h("li", {}, h("span", { text: [splitTitle(c.title).main + (c.vol ? " " + volText(c.vol) : ""), cleanAuthor(c.author), c.publisher, c.year].filter(Boolean).join(", ") }), h("br"),
+          h("a", { href: OFFICIAL + "search/keyword/" + c.isbn13, target: "_blank", rel: "noopener noreferrer", text: "누리집에서 이 책 보기" }))))) : null,
       ...cta(keywordLink(utterance), "누리집에서 이 검색어로 찾기", true));
   }
   if (b && o.route !== "check") nodes.push(h("div", { id: "eds" }));
