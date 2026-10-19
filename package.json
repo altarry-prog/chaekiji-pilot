@@ -1,7 +1,7 @@
 {
   "name": "chaekiji-pilot",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "책이지 시험 이용 화면(D안) — 화면은 index.html 한 파일, 여기에는 점검 도구만 적어 둔다",
   "type": "module",
   "scripts": {
