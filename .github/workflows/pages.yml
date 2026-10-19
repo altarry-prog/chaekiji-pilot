@@ -1,0 +1,31 @@
+# 게시 — main에 올릴 때마다 저장소 그대로를 깃허브 페이지스에 게시한다.
+# 저장소 설정 화면을 거치지 않도록 워크플로가 Pages를 켠다(enablement). 키·비밀값은 쓰지 않는다.
+name: pages
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["check/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
