@@ -2213,6 +2213,7 @@ function run(text, live){
   if(live === true){
     const hit = matchCase(text);
     if(hit < 0 && !run._miss && RELAY && window.fetch){            /* [D안] 예시 5권에 없으면 정보나루(중계 /search)에서 찾는다 */
+      show('s-idle');                                               /* 듣기 화면에 멈춰 있지 않게 — 찾는 중 안내가 보이는 첫 화면으로 */
       micNote(`“${String(text).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]))}” — 부천시립도서관 자료에서 찾는 중…`, true);
       findLive(text).then(i => { if(i >= 0){ cur = i; run(text, 'found'); } else run(text, 'miss'); });
       return;
