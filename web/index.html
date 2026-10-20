@@ -2202,7 +2202,7 @@ function startVoice(){
     start(){ $('micbtn').classList.add('live'); $('localbadge').hidden = !local; listenText(''); show('s-listen'); },
     interim(t){ listenText(t); },
     final(text, alts){ $('micbtn').classList.remove('live'); NOSPEECH_N = 0; listenText('');
-      const pick = alts.find(a => matchCase(a) >= 0) || text; run(pick, true); },
+      const pick = alts.find(a => matchCase(a) >= 0) || text; run._alts = alts; run(pick, true); },
     fail(code){ $('micbtn').classList.remove('live'); listenText(''); if($('s-listen').classList.contains('on')) show('s-idle'); micFail(code); }
   });
 }
@@ -2215,7 +2215,7 @@ function run(text, live){
     if(hit < 0 && !run._miss && RELAY && window.fetch){            /* [D안] 예시 5권에 없으면 정보나루(중계 /search)에서 찾는다 */
       show('s-idle');                                               /* 듣기 화면에 멈춰 있지 않게 — 찾는 중 안내가 보이는 첫 화면으로 */
       micNote(`“${String(text).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]))}” — 부천시립도서관 자료에서 찾는 중…`, true);
-      findLive(text).then(i => { if(i >= 0){ cur = i; run(text, 'found'); } else run(text, 'miss'); });
+      findLive(text, run._alts).then(i => { if(i >= 0){ cur = i; run(text, 'found'); } else if(i === -1) run(text, 'miss'); }); run._alts = null;
       return;
     }
     if(hit < 0){
@@ -3036,7 +3036,7 @@ function liveSearch(qs){
     .catch(() => { clearTimeout(tm); return []; });
 }
 function cleanTitle(t){ return String(t||'').split(/\s*[:=]\s*/)[0].replace(/\s+/g,' ').trim(); }
-function cleanAuthor(a){ return String(a||'').replace(/지은이\s*:?\s*/g,'').replace(/\(지은이\)/g,'').replace(/\s+/g,' ').trim(); }
+function cleanAuthor(a){ return String(a||'').replace(/\(\s*지은이\s*\)/g,'').replace(/지은이\s*:?\s*/g,'').replace(/\(\s*\)/g,'').replace(/\s+/g,' ').trim(); }
 /* 말에서 책 이름만 남긴다 — 「빌리고 싶어요」 「있어요?」 「○○에서 받을게요」 같은 말을 뗀다 */
 function utterToQuery(text){
   let t = ' ' + String(text||'') + ' ';
@@ -3054,16 +3054,41 @@ function addLiveCase(d, heard){
     book:{t, a: cleanAuthor(d.author), p: d.publisher || '', y: d.year || '', isbn: d.isbn13}, bx });
   return CASES.length - 1;
 }
-function findLive(text){
-  const q = utterToQuery(text); if(q.length < 2) return Promise.resolve(-1);
-  const w = q.split(' '); const tries = [q];
-  if(w.length > 1){ tries.push(w.slice(1).join(' ')); tries.push(w.slice(0, -1).join(' ')); }
-  const nq = _norm(q);
-  const pick = docs => docs.find(d => { const n = _norm(cleanTitle(d.title)); return n.length >= 2 && nq.indexOf(n) >= 0; }) || docs[0];
-  const step = k => k >= tries.length ? Promise.resolve(-1)
-    : liveSearch('q=' + encodeURIComponent(tries[k])).then(docs => docs.length ? addLiveCase(pick(docs), String(text).trim()) : step(k + 1));
-  return step(0);
+/* [D안] 잘못 들은 말 보정 — 음성 인식 후보(최대 3개)와 「한 글자 뺀」 검색까지 모아, 말과 가장 닮은 제목을 고른다.
+   닮은 정도가 낮으면 고르지 않고 「혹시 이 책인가요?」 후보를 보여 준다(엉뚱한 책으로 판정하지 않게). */
+function _sim(a, b){ if(!a || !b) return 0; const l = _lcs(a, b); return 2 * l / (a.length + b.length); }
+function findLive(text, alts){
+  const asks = [String(text||'')].concat(alts || []).map(utterToQuery).filter((x, i, A) => x.length >= 2 && A.indexOf(x) === i).slice(0, 3);
+  if(!asks.length) return Promise.resolve(-1);
+  const qs = [];
+  asks.forEach(q => { qs.push(q); const w = q.split(' ');
+    if(w.length > 1){ qs.push(w.slice(1).join(' ')); qs.push(w.slice(0, -1).join(' ')); }
+    const n = q.replace(/\s/g, ''); if(n.length >= 3 && w.length === 1){ qs.push(n.slice(1)); qs.push(n.slice(0, -1)); } });
+  const uq = qs.filter((x, i, A) => x.length >= 2 && A.indexOf(x) === i).slice(0, 8);
+  const pool = {};
+  const score = d => { const n = _norm(cleanTitle(d.title)); let best = 0;
+    asks.forEach(q => { const nq = _norm(q); const v = (n.length >= 2 && nq.indexOf(n) >= 0) ? 1 : _sim(nq, n); if(v > best) best = v; }); return best; };
+  const step = k => {
+    const docs = Object.values(pool).sort((a, b) => b._s - a._s);
+    if(docs[0] && docs[0]._s >= 0.9) return Promise.resolve(docs);          /* 거의 같은 제목을 찾았으면 더 묻지 않는다 */
+    if(k >= uq.length) return Promise.resolve(docs);
+    return liveSearch('q=' + encodeURIComponent(uq[k])).then(ds => { ds.forEach(d => { if(!pool[d.isbn13]){ d._s = score(d); pool[d.isbn13] = d; } }); return step(k + 1); });
+  };
+  return step(0).then(docs => {
+    if(!docs.length) return -1;
+    if(docs[0]._s >= 0.6 && (!docs[1] || docs[0]._s - docs[1]._s >= 0.1 || docs[0]._s >= 0.9)) return addLiveCase(docs[0], String(text).trim());
+    askPick(String(text).trim(), docs.slice(0, 3)); return -2;                 /* 애매하면 사람에게 고르게 한다 */
+  });
 }
+function askPick(heard, docs){
+  window._PICK = docs.map(d => d); const esc = x => String(x||'').replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+  show('s-idle');
+  micNote(`“${esc(heard)}” — 혹시 이 책인가요?<br>` + docs.map((d, i) =>
+    `<button type="button" class="pickbtn" style="display:block;width:100%;margin:8px 0 0;padding:10px 12px;border-radius:12px;border:1px solid #1d6b55;background:#fff;color:#1d4f42;font:inherit;text-align:left" onclick="pickLive(${i})"><b>${esc(cleanTitle(d.title))}</b> · ${esc(cleanAuthor(d.author))}${d.year ? ' · ' + esc(d.year) : ''}</button>`).join('')
+    + `<div style="margin-top:8px">없으면 제목을 다시 말하거나 아래에 입력해 주세요.</div>`, true);
+  if(TTS_ON) say('혹시 이 책인가요? 맞는 책을 눌러 주세요.');
+}
+window.pickLive = i => { const d = (window._PICK || [])[i]; if(!d) return; cur = addLiveCase(d, cleanTitle(d.title)); run(cleanTitle(d.title), 'found'); };
 $('scanbtn').onclick = scanStart; $('scanClose').onclick = scanStop;
 
 /* ── 등록된 기기 (패스키 시연 — 기기 안에만 저장, 서버 없음) ── */
