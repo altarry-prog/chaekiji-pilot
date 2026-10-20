@@ -1,4 +1,4 @@
-# 책이지 시험 이용 화면 점검 — 고칠 때마다·매일 10:17(한국 시간)·손으로.
+# 책이지 시험 이용 화면 점검 — 고칠 때마다·손으로(매일 예약은 10. 20. 담당자 지시로 끔 — 정보나루 호출을 D안 검색에 남김).
 # ① 모의 중계 점검(tests/check_pilot.mjs, 네트워크 불필요) ② 게시된 화면을 실제 중계로 여는 실제 점검(tests/live_check.mjs)
 # 실제 점검 결과는 check/last_check.json에 커밋한다(정보나루 호출 1~2회 안팎). 키·비밀값은 쓰지 않는다.
 name: check
@@ -6,8 +6,6 @@ on:
   push:
     branches: [main]
     paths-ignore: ["check/**", "**.md", "docs/**"]
-  schedule:
-    - cron: "17 1 * * *"
   workflow_dispatch:
 permissions:
   contents: write

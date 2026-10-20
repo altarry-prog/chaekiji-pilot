@@ -1,10 +1,7 @@
-# D안 실험판(web/) 실제 점검 — 게시가 끝난 뒤 tests/dweb_live.mjs를 돌려 결과·화면을 check/에 커밋한다. 키·비밀값 없음.
+# D안 실험판(web/) 실제 점검(손으로만 — 10. 20. 담당자 지시로 자동 실행 끔) — 게시가 끝난 뒤 tests/dweb_live.mjs를 돌려 결과·화면을 check/에 커밋한다. 키·비밀값 없음.
 name: dweb-live
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ["web/**", "tests/dweb_live.mjs", ".github/workflows/dweb.yml"]
 permissions:
   contents: write
 jobs:
