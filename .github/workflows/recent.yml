@@ -1,0 +1,29 @@
+# 최근 도서 조회 시험(손으로 또는 이 파일이 바뀔 때) — tools/recent_check.mjs. 결과를 check/에 커밋한다. 키·비밀값 없음.
+name: recent-books
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["tools/recent_check.mjs", ".github/workflows/recent.yml"]
+permissions:
+  contents: write
+jobs:
+  recent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 최근 도서 5권 조회
+        run: node tools/recent_check.mjs
+      - name: 기록
+        run: |
+          git config user.name "chaekiji-pilot-check"
+          git config user.email "pilot-check@users.noreply.github.com"
+          git add check/recent_books_2026-10-20.json
+          git diff --cached --quiet && exit 0
+          git commit -m "최근 도서 조회 시험 $(date -u -d '+9 hours' '+%Y-%m-%d %H:%M')"
+          git pull --rebase --autostash -q || true
+          git push
