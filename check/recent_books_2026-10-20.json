@@ -1,0 +1,192 @@
+{
+ "time": "2026-10-20 17:44 KST",
+ "relay": "https://chaekiji-relay.altarry2.workers.dev",
+ "pickup": "상동",
+ "results": [
+  {
+   "utterance": "혼모노 있어요?",
+   "status": 200,
+   "isError": false,
+   "route": "ill",
+   "book": {
+    "title": "혼모노 :성해나 소설집 ",
+    "author": "지은이: 성해나",
+    "year": "2025",
+    "isbn13": "9788936439743"
+   },
+   "asof": "2026-10-20",
+   "at_pickup": "busy",
+   "available_at": [
+    "동화",
+    "북부",
+    "오정",
+    "책마루"
+   ],
+   "loaned_at": [
+    "꿈빛",
+    "꿈여울",
+    "도당",
+    "별빛마루",
+    "상동",
+    "송내",
+    "수주",
+    "심곡",
+    "역곡",
+    "역곡밝은",
+    "원미",
+    "한울빛"
+   ],
+   "candidates": [],
+   "same_title_others": 0,
+   "seconds": 5.792
+  },
+  {
+   "utterance": "한로로 자몽살구클럽 빌리고 싶어요",
+   "status": 200,
+   "isError": false,
+   "route": "ill",
+   "book": {
+    "title": "자몽살구클럽",
+    "author": "한로로 (HANRORO) (지은이)",
+    "year": "2025",
+    "isbn13": "9791199305304"
+   },
+   "asof": "2026-10-20",
+   "at_pickup": "busy",
+   "available_at": [
+    "꿈빛",
+    "동화",
+    "별빛마루",
+    "심곡"
+   ],
+   "loaned_at": [
+    "꿈여울",
+    "도당",
+    "북부",
+    "상동",
+    "송내",
+    "수주",
+    "역곡",
+    "역곡밝은",
+    "오정",
+    "원미",
+    "책마루",
+    "한울빛"
+   ],
+   "candidates": [],
+   "same_title_others": 0,
+   "seconds": 5.257
+  },
+  {
+   "utterance": "김애란 안녕이라 그랬어 상동에서 받을게요",
+   "status": 200,
+   "isError": false,
+   "route": "visit",
+   "book": {
+    "title": "안녕이라 그랬어 :김애란 소설 ",
+    "author": "지은이: 김애란",
+    "year": "2025",
+    "isbn13": "9791141602376"
+   },
+   "asof": "2026-10-20",
+   "at_pickup": "ok",
+   "available_at": [
+    "상동",
+    "수주",
+    "역곡밝은"
+   ],
+   "loaned_at": [
+    "꿈빛",
+    "꿈여울",
+    "도당",
+    "동화",
+    "별빛마루",
+    "북부",
+    "송내",
+    "심곡",
+    "역곡",
+    "오정",
+    "원미",
+    "책마루",
+    "한울빛"
+   ],
+   "candidates": [],
+   "same_title_others": 0,
+   "seconds": 2.97
+  },
+  {
+   "utterance": "나의 완벽한 장례식 빌릴 수 있나요",
+   "status": 200,
+   "isError": false,
+   "route": "visit",
+   "book": {
+    "title": "나의 완벽한 장례식 :조현선 장편소설 ",
+    "author": "지은이: 조현선",
+    "year": "2026",
+    "isbn13": "9791124038192"
+   },
+   "asof": "2026-10-20",
+   "at_pickup": "ok",
+   "available_at": [
+    "별빛마루",
+    "북부",
+    "상동",
+    "심곡",
+    "역곡밝은"
+   ],
+   "loaned_at": [
+    "꿈빛",
+    "꿈여울",
+    "도당",
+    "동화",
+    "송내",
+    "수주",
+    "역곡",
+    "오정",
+    "원미",
+    "책마루",
+    "한울빛"
+   ],
+   "candidates": [],
+   "same_title_others": 0,
+   "seconds": 3.245
+  },
+  {
+   "utterance": "괴테는 모든 것을 말했다 있나요",
+   "status": 200,
+   "isError": false,
+   "route": "ill",
+   "book": {
+    "title": "괴테는 모든 것을 말했다 ",
+    "author": "스즈키 유이 지음 ;이지수 옮김",
+    "year": "2025",
+    "isbn13": "9791194530701"
+   },
+   "asof": "2026-10-20",
+   "at_pickup": "busy",
+   "available_at": [
+    "별빛마루",
+    "북부",
+    "심곡",
+    "책마루"
+   ],
+   "loaned_at": [
+    "꿈빛",
+    "꿈여울",
+    "도당",
+    "동화",
+    "상동",
+    "송내",
+    "수주",
+    "역곡",
+    "역곡밝은",
+    "오정",
+    "원미",
+    "한울빛"
+   ],
+   "candidates": [],
+   "same_title_others": 0,
+   "seconds": 2.783
+  }
+ ]
+}
