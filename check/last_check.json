@@ -1,15 +1,15 @@
 {
- "time": "2026-10-19 19:52 KST",
+ "time": "2026-10-20 09:02 KST",
  "page": "https://altarry-prog.github.io/chaekiji-pilot/",
- "repo_md5": "b04bc099e74a1611a8a60c4a3920bdb6",
+ "repo_md5": "013f505ffa69c0c156fdb02d8419a9e8",
  "checks": [
   {
    "name": "게시된 화면 = 저장소 index.html",
    "pass": true,
-   "detail": "b04bc099e74a1611a8a60c4a3920bdb6"
+   "detail": "013f505ffa69c0c156fdb02d8419a9e8"
   },
   {
-   "name": "「나미야 잡화점의 기적」 — 판정이 옴(977ms)",
+   "name": "「나미야 잡화점의 기적」 — 판정이 옴(971ms)",
    "pass": true,
    "detail": "상호대차로 상동도서관에서 받을 수 있어요"
   },
@@ -25,8 +25,8 @@
   },
   {
    "name": "「나미야 잡화점의 기적」 — 화면 오류·CSP 위반 0",
-   "pass": false,
-   "detail": "Failed to load resource: the server responded with a status of 502 ()"
+   "pass": true,
+   "detail": ""
   },
   {
    "name": "「나미야 잡화점의 기적」 — 부르는 곳은 게시 화면과 책이지 중계뿐",
@@ -34,7 +34,7 @@
    "detail": "altarry-prog.github.io,chaekiji-relay.altarry2.workers.dev"
   },
   {
-   "name": "「불편한 편의점」 — 판정이 옴(295ms)",
+   "name": "「불편한 편의점」 — 판정이 옴(900ms)",
    "pass": true,
    "detail": "상동도서관 서가에 있어요"
   },
@@ -50,8 +50,8 @@
   },
   {
    "name": "「불편한 편의점」 — 화면 오류·CSP 위반 0",
-   "pass": false,
-   "detail": "Failed to load resource: the server responded with a status of 502 ()"
+   "pass": true,
+   "detail": ""
   },
   {
    "name": "「불편한 편의점」 — 부르는 곳은 게시 화면과 책이지 중계뿐",
@@ -59,21 +59,21 @@
    "detail": "altarry-prog.github.io,chaekiji-relay.altarry2.workers.dev"
   }
  ],
- "deployed_md5": "b04bc099e74a1611a8a60c4a3920bdb6",
+ "deployed_md5": "013f505ffa69c0c156fdb02d8419a9e8",
  "9788972756194": {
   "verdict": "상호대차로 상동도서관에서 받을 수 있어요",
   "ok": 7,
   "busy": 6,
   "none": 3,
-  "basis": "정보나루 2026. 10. 19. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
+  "basis": "정보나루 2026. 10. 20. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
  },
  "9791161571188": {
   "verdict": "상동도서관 서가에 있어요",
   "ok": 11,
   "busy": 5,
   "none": 0,
-  "basis": "정보나루 2026. 10. 19. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
+  "basis": "정보나루 2026. 10. 20. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
  },
- "passed": 9,
+ "passed": 11,
  "total": 11
 }
