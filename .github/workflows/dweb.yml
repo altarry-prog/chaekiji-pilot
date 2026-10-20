@@ -1,0 +1,35 @@
+# D안 실험판(web/) 실제 점검 — 게시가 끝난 뒤 tests/dweb_live.mjs를 돌려 결과·화면을 check/에 커밋한다. 키·비밀값 없음.
+name: dweb-live
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["web/**", "tests/dweb_live.mjs", ".github/workflows/dweb.yml"]
+permissions:
+  contents: write
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 설치
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: 게시 기다리기
+        run: sleep 90
+      - name: D안 실제 점검
+        run: node tests/dweb_live.mjs
+      - name: 기록
+        run: |
+          git config user.name "chaekiji-pilot-check"
+          git config user.email "pilot-check@users.noreply.github.com"
+          git add check/dweb_live.json check/dweb
+          git diff --cached --quiet && exit 0
+          git commit -m "D안 실험판 실제 점검 $(date -u -d '+9 hours' '+%Y-%m-%d %H:%M')"
+          git pull --rebase --autostash -q || true
+          git push
