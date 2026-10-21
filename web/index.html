@@ -2395,7 +2395,7 @@ function result(){
     <button class="cta ghost" onclick="reset()">${u.again}</button>
     <p class="caution">${u.caution}</p>`;
 
-  $('s-result').innerHTML = h;
+  $('s-result').innerHTML = h + dListBox(c, t);      /* [D안] 알파스 반입용 목록(개인정보 없음) */
   show('s-result');
   /* 우리 관에 있으면 신청 자체가 없다 → 시트 없이 방문 안내. 패스 범위 안이면 확인 없이 접수. 그 밖은 확인 한 번 */
   $('apply').onclick = (t === 0) ? finishGuide : (passReady(t) ? finishViaPass : openSheet);
@@ -2418,6 +2418,39 @@ function result(){
     }
   }
 }
+
+/* ─────────── [D안] 알파스 반입용 목록 — 판정한 책을 모아 엑셀(CSV)로 내려받기 ───────────
+   회원번호·이름 같은 개인정보는 담지 않는다. 회원 확인과 최종 접수는 사서가 알파스에서 한다.
+   목록은 이 기기(브라우저) 안에만 둔다. 알파스 반입 양식은 업체 회신 뒤 칸을 맞춘다. */
+const DL_KEY = 'chaekiji-d-list';
+function dLoad(){ try{ return JSON.parse(localStorage.getItem(DL_KEY)) || []; }catch(e){ return []; } }
+function dSave(a){ try{ localStorage.setItem(DL_KEY, JSON.stringify(a)); }catch(e){} }
+const D_ROUTE = {0:'바로 이용(서가)', 1:'관내 상호대차', 2:'책바다 안내', 3:'예약 권장'};
+function dListBox(c, t){
+  const n = dLoad().length, b = best(c), from = (t === 1 && b) ? (b.raw || b.n || '') : '';
+  window._DROW = { 조회일: c.asof || '', ISBN: c.book.isbn || '', 서명: c.book.t || '', 저자: c.book.a || '',
+    받을도서관: 내관 + '도서관', 보낼도서관: from ? String(from).replace(/도서관$/,'') + '도서관' : '', 판정: D_ROUTE[t] || '' };
+  return `<div id="dlist" style="margin:14px 16px 4px;padding:12px 14px;border:1px dashed #1d6b55;border-radius:14px;background:#f4faf7;font-size:14px;line-height:1.5">
+    <b>알파스 반입용 목록(D안 실험)</b><br><span style="color:#4b5b55">책 정보만 담고 개인정보는 담지 않아요. 회원 확인과 접수는 사서가 알파스에서 합니다.</span>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button type="button" onclick="dAdd()" style="flex:1;min-width:130px;padding:10px;border-radius:10px;border:0;background:#1d6b55;color:#fff;font:inherit">목록에 담기</button>
+      <button type="button" onclick="dCsv()" style="flex:1;min-width:130px;padding:10px;border-radius:10px;border:1px solid #1d6b55;background:#fff;color:#1d4f42;font:inherit">엑셀로 받기 (<span id="dlN">${n}</span>권)</button>
+      <button type="button" onclick="dClear()" style="padding:10px;border-radius:10px;border:1px solid #c9d3cf;background:#fff;color:#5b6472;font:inherit">비우기</button>
+    </div><div id="dlMsg" style="margin-top:6px;color:#1d4f42"></div></div>`;
+}
+window.dAdd = () => { const r = window._DROW; if(!r) return; const a = dLoad();
+  if(a.some(x => x.ISBN === r.ISBN && x.받을도서관 === r.받을도서관)){ $('dlMsg').textContent = '이미 담긴 책이에요.'; return; }
+  a.push(Object.assign({담은때: new Date(Date.now() + 9*3600e3).toISOString().slice(0,16).replace('T',' ')}, r)); dSave(a);
+  $('dlN').textContent = a.length; $('dlMsg').textContent = '담았어요. 다른 책도 찾아 담을 수 있어요.'; };
+window.dCsv = () => { const a = dLoad(); if(!a.length){ $('dlMsg').textContent = '담긴 책이 없어요.'; return; }
+  const cols = ['담은때','조회일','ISBN','서명','저자','받을도서관','보낼도서관','판정'];
+  const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const csv = '﻿' + cols.join(',') + '\r\n' + a.map(r => cols.map(k => k === 'ISBN' ? '="' + r[k] + '"' : q(r[k])).join(',')).join('\r\n') + '\r\n';
+  const url = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  const el = document.createElement('a'); el.href = url; el.download = '책이지_상호대차_반입목록_' + new Date(Date.now()+9*3600e3).toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(el); el.click(); el.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+  $('dlMsg').textContent = `${a.length}권을 엑셀 파일(CSV)로 내려받았어요.`; };
+window.dClear = () => { dSave([]); $('dlN').textContent = 0; $('dlMsg').textContent = '목록을 비웠어요.'; };
 
 function openSheet(){
   const c = CASES[cur], u = U(), V = view(c), t = eff(c);
