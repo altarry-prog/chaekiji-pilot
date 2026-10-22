@@ -1,0 +1,37 @@
+{
+ "문장": {
+  "사전안": 150,
+  "사전밖": 30,
+  "손으로쓴것": 20
+ },
+ "글자비교": {
+  "in": {
+   "auto_ok": 30,
+   "ask_ok": 58,
+   "ask_miss": 0,
+   "none": 62,
+   "auto_wrong": 0
+  },
+  "out": {
+   "none": 30,
+   "ask": 0,
+   "auto_wrong": 0
+  },
+  "wrong": []
+ },
+ "소리비교": {
+  "in": {
+   "auto_ok": 144,
+   "ask_ok": 5,
+   "ask_miss": 0,
+   "none": 1,
+   "auto_wrong": 0
+  },
+  "out": {
+   "none": 28,
+   "ask": 2,
+   "auto_wrong": 0
+  },
+  "wrong": []
+ }
+}

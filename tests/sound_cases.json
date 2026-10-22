@@ -1,0 +1,1082 @@
+[
+ {
+  "title": "불편한 편의점",
+  "say": "불편한 펴니점 있어요",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "불편한 편의점",
+  "say": "불편한편점 상동에서 받을게요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "불편한 편의점",
+  "say": "불한편의점 빌리고 싶어요",
+  "kind": "space+drop",
+  "inDict": true
+ },
+ {
+  "title": "나미야 잡화점의 기적",
+  "say": "나미야 잡아점의 기적",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "나미야 잡화점의 기적",
+  "say": "나미야 잡화저믜 빌려 주세요",
+  "kind": "liaison+front",
+  "inDict": true
+ },
+ {
+  "title": "나미야 잡화점의 기적",
+  "say": "나미야 잡화점의 있어요",
+  "kind": "front",
+  "inDict": true
+ },
+ {
+  "title": "소년이 온다",
+  "say": "소녀니 온다 빌려 주세요",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "소년이 온다",
+  "say": "소년이 온따 빌리고 싶어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "소년이 온다",
+  "say": "혹시 소년이 엄다 있나요",
+  "kind": "final+vowel",
+  "inDict": true
+ },
+ {
+  "title": "지구 끝의 온실",
+  "say": "지구 끄테 온실",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "지구 끝의 온실",
+  "say": "지구 끝의 빌리고 싶어요",
+  "kind": "front",
+  "inDict": true
+ },
+ {
+  "title": "지구 끝의 온실",
+  "say": "지구 끝의 옴실 빌려 주세요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "혼모노",
+  "say": "홈모노 빌리고 싶어요",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "혼모노",
+  "say": "혹시 홈모노 있나요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "혼모노",
+  "say": "혼 모 노 빌려 주세요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "세이노의 가르침",
+  "say": "세이노 가르침 있나요",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "세이노의 가르침",
+  "say": "세이노의 까르침 상동에서 받을게요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "세이노의 가르침",
+  "say": "세노의가르침 상동에서 받을게요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "역행자",
+  "say": "혹시 역헹자 있나요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "역행자",
+  "say": "역핸자",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "역행자",
+  "say": "역행자 있어요",
+  "kind": "tense+tense",
+  "inDict": true
+ },
+ {
+  "title": "아버지의 해방일지",
+  "say": "혹시 아버지이 해방일지 있나요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "아버지의 해방일지",
+  "say": "아보지의 해방일지",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "아버지의 해방일지",
+  "say": "아버지의 해방일찌 상동에서 받을게요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "작별하지 않는다",
+  "say": "작하지않는다 있어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "작별하지 않는다",
+  "say": "잨별하지 않는다",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "작별하지 않는다",
+  "say": "짝별하지 않는다 빌려 주세요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "채식주의자",
+  "say": "채싴주의짜 빌려 주세요",
+  "kind": "tense+final",
+  "inDict": true
+ },
+ {
+  "title": "채식주의자",
+  "say": "채식주자 빌리고 싶어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "채식주의자",
+  "say": "채싴쭈의자 빌리고 싶어요",
+  "kind": "final+tense",
+  "inDict": true
+ },
+ {
+  "title": "흰",
+  "say": "힌 있어요",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "흰",
+  "say": "흼",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "흰",
+  "say": "힌 빌려 주세요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "파친코",
+  "say": "파친커 빌려 주세요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "파친코",
+  "say": "파 친 코 있어요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "파친코",
+  "say": "파침코 빌리고 싶어요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "달러구트 꿈 백화점",
+  "say": "달라구트 꿈 백과점",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "달러구트 꿈 백화점",
+  "say": "혹시 달러구트꿈백화점 있나요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "달러구트 꿈 백화점",
+  "say": "달러구트백화점 있어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "어서 오세요, 휴남동 서점입니다",
+  "say": "휴남동 서점",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "어서 오세요, 휴남동 서점입니다",
+  "say": "혹시 어서 오세요 있나요",
+  "kind": "front",
+  "inDict": true
+ },
+ {
+  "title": "어서 오세요, 휴남동 서점입니다",
+  "say": "어서 어세요 휴남동 서점입니다 빌려 주세요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "메리골드 마음 세탁소",
+  "say": "메리걸드 마음 세탁소 빌려 주세요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "메리골드 마음 세탁소",
+  "say": "메리골드 마음 세탘소 있어요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "메리골드 마음 세탁소",
+  "say": "메리골드마음세탁소 있어요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "도둑맞은 집중력",
+  "say": "도둑마즌 집중력",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "도둑맞은 집중력",
+  "say": "도둑마즌 집중력 상동에서 받을게요",
+  "kind": "liaison",
+  "inDict": true
+ },
+ {
+  "title": "도둑맞은 집중력",
+  "say": "도둑음집중력 빌리고 싶어요",
+  "kind": "final+drop",
+  "inDict": true
+ },
+ {
+  "title": "사피엔스",
+  "say": "사피앰스 상동에서 받을게요",
+  "kind": "vowel+final",
+  "inDict": true
+ },
+ {
+  "title": "사피엔스",
+  "say": "싸피엔스 있어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "사피엔스",
+  "say": "사피엠스 빌려 주세요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "총 균 쇠",
+  "say": "총균쇠 상동에서 받을게요",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "총 균 쇠",
+  "say": "천 균 쇠 빌려 주세요",
+  "kind": "vowel+final",
+  "inDict": true
+ },
+ {
+  "title": "총 균 쇠",
+  "say": "총 균 쐬 있어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "데미안",
+  "say": "떼미안 있어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "데미안",
+  "say": "데미앙 빌리고 싶어요",
+  "kind": "final+final",
+  "inDict": true
+ },
+ {
+  "title": "데미안",
+  "say": "혹시 대미안 있나요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "82년생 김지영",
+  "say": "팔십이년생 김지영",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "82년생 김지영",
+  "say": "82년셍 김지영",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "82년생 김지영",
+  "say": "82념생 낌지영 상동에서 받을게요",
+  "kind": "final+tense",
+  "inDict": true
+ },
+ {
+  "title": "아몬드",
+  "say": "아먼드 빌려 주세요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "아몬드",
+  "say": "아몸드 있어요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "아몬드",
+  "say": "혹시 아먼뜨 있나요",
+  "kind": "tense+vowel",
+  "inDict": true
+ },
+ {
+  "title": "구의 증명",
+  "say": "구의 증면",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "구의 증명",
+  "say": "꾸의 증명 있어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "구의 증명",
+  "say": "구의 쯩명 빌리고 싶어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "해리 포터와 마법사의 돌",
+  "say": "해리포터 마법사의 돌",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "해리 포터와 마법사의 돌",
+  "say": "해리 포터와 마벞사의 돌 상동에서 받을게요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "해리 포터와 마법사의 돌",
+  "say": "해리 포터와 마법싸의 돌 있어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "어린 왕자",
+  "say": "혹시 어린 완자 있나요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "어린 왕자",
+  "say": "어린 왕짜 빌리고 싶어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "어린 왕자",
+  "say": "오린 왕자",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "미움받을 용기",
+  "say": "미움 바들 용기",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "미움받을 용기",
+  "say": "미움빧을 용기",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "미움받을 용기",
+  "say": "혹시 미움받용기 있나요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "원씽",
+  "say": "원 싱",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "원씽",
+  "say": "원싱 상동에서 받을게요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "원씽",
+  "say": "혹시 원 씽 있나요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "돈의 속성",
+  "say": "혹시 도늬 속성 있나요",
+  "kind": "liaison",
+  "inDict": true
+ },
+ {
+  "title": "돈의 속성",
+  "say": "돔의 속성 있어요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "돈의 속성",
+  "say": "똔의 속성",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "부의 추월차선",
+  "say": "부이 추월차선 상동에서 받을게요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "부의 추월차선",
+  "say": "부의추월차선 빌려 주세요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "부의 추월차선",
+  "say": "뿌의 추월차손 있어요",
+  "kind": "tense+vowel",
+  "inDict": true
+ },
+ {
+  "title": "이처럼 사소한 것들",
+  "say": "이처럼사한것들 빌려 주세요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "이처럼 사소한 것들",
+  "say": "이처럼 사소한 걷들 상동에서 받을게요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "이처럼 사소한 것들",
+  "say": "혹시 이처럼 사소한 껏들 있나요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "모순",
+  "say": "모쑨",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "모순",
+  "say": "머순 상동에서 받을게요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "모순",
+  "say": "모숨",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "급류",
+  "say": "끞류 있어요",
+  "kind": "final+tense",
+  "inDict": true
+ },
+ {
+  "title": "급류",
+  "say": "혹시 끕류 있나요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "급류",
+  "say": "급 류",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "마흔에 읽는 쇼펜하우어",
+  "say": "마흔에읽는쇼펜하어 있어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "마흔에 읽는 쇼펜하우어",
+  "say": "마흔에는쇼펜하우어 빌려 주세요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "마흔에 읽는 쇼펜하우어",
+  "say": "혹시 마흔에읽는쇼펜하우어 있나요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "시대예보",
+  "say": "혹시 씨대예보 있나요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "시대예보",
+  "say": "시 대 예 보 빌리고 싶어요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "시대예보",
+  "say": "시데예버 빌리고 싶어요",
+  "kind": "vowel+vowel",
+  "inDict": true
+ },
+ {
+  "title": "물고기는 존재하지 않는다",
+  "say": "물고기늠 존재하찌 않는다 있어요",
+  "kind": "tense+final",
+  "inDict": true
+ },
+ {
+  "title": "물고기는 존재하지 않는다",
+  "say": "물고기는존하지않늠다 빌려 주세요",
+  "kind": "drop+final",
+  "inDict": true
+ },
+ {
+  "title": "물고기는 존재하지 않는다",
+  "say": "물고기는존재하지않는다 있어요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "긴긴밤",
+  "say": "긴 긴 밤",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "긴긴밤",
+  "say": "긴김밤 있어요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "긴긴밤",
+  "say": "김긴밤 빌려 주세요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "이중 하나는 거짓말",
+  "say": "이 중 하나는 거짓말 있어요",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "이중 하나는 거짓말",
+  "say": "이중 하나는 꼬짓말 빌리고 싶어요",
+  "kind": "vowel+tense",
+  "inDict": true
+ },
+ {
+  "title": "이중 하나는 거짓말",
+  "say": "이중하나는짓말 빌리고 싶어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "천 개의 파랑",
+  "say": "천개에 파랑",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "천 개의 파랑",
+  "say": "천개의랑 있어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "천 개의 파랑",
+  "say": "천의파랑 빌리고 싶어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "우리가 빛의 속도로 갈 수 없다면",
+  "say": "우리가 빛의 속도로 갈 수 없다몀 있어요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "우리가 빛의 속도로 갈 수 없다면",
+  "say": "혹시 우리가빛의속도로갈수없다면 있나요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "우리가 빛의 속도로 갈 수 없다면",
+  "say": "우리가 빛의 석도로 갈 수 없다면 상동에서 받을게요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "저주토끼",
+  "say": "저주터끼 빌려 주세요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "저주토끼",
+  "say": "저주토기",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "저주토끼",
+  "say": "저 주 토 끼",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "칵테일, 러브, 좀비",
+  "say": "칵테일 러브 좀비",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "칵테일, 러브, 좀비",
+  "say": "칵테일러브좀비 있어요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "칵테일, 러브, 좀비",
+  "say": "칵테일브좀비 빌리고 싶어요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "퓨처 셀프",
+  "say": "퓨처셀프",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "퓨처 셀프",
+  "say": "퓨처 샐프 있어요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "퓨처 셀프",
+  "say": "퓨처 쎌프 상동에서 받을게요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "홍학의 자리",
+  "say": "홍하게 자리",
+  "kind": "hand",
+  "inDict": true
+ },
+ {
+  "title": "홍학의 자리",
+  "say": "홍학이 자리 있어요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "홍학의 자리",
+  "say": "혹시 홍학의 짜리 있나요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "아주 작은 습관의 힘",
+  "say": "아주 짝은 습관의 힘",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "아주 작은 습관의 힘",
+  "say": "아주 작은 습관이 힘",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "아주 작은 습관의 힘",
+  "say": "아주 자근 슾관의 힘 빌리고 싶어요",
+  "kind": "liaison+final",
+  "inDict": true
+ },
+ {
+  "title": "생각에 관한 생각",
+  "say": "생가게 관한 생각 상동에서 받을게요",
+  "kind": "liaison",
+  "inDict": true
+ },
+ {
+  "title": "생각에 관한 생각",
+  "say": "생가게 관한",
+  "kind": "liaison+front",
+  "inDict": true
+ },
+ {
+  "title": "생각에 관한 생각",
+  "say": "생각에관한생각 빌려 주세요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "정의란 무엇인가",
+  "say": "정란무엇인가 상동에서 받을게요",
+  "kind": "space+drop",
+  "inDict": true
+ },
+ {
+  "title": "정의란 무엇인가",
+  "say": "정의란 무어신가 빌려 주세요",
+  "kind": "liaison",
+  "inDict": true
+ },
+ {
+  "title": "정의란 무엇인가",
+  "say": "혹시 정의란 무엇인까 있나요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "코스모스",
+  "say": "커스모스",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "코스모스",
+  "say": "혹시 코스모쓰 있나요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "코스모스",
+  "say": "코스머스 상동에서 받을게요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "이기적 유전자",
+  "say": "이기적 유쩐자 있어요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "이기적 유전자",
+  "say": "혹시 이기적유전자 있나요",
+  "kind": "space",
+  "inDict": true
+ },
+ {
+  "title": "이기적 유전자",
+  "say": "이기유전자 빌려 주세요",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "페스트",
+  "say": "패스트 빌리고 싶어요",
+  "kind": "vowel",
+  "inDict": true
+ },
+ {
+  "title": "페스트",
+  "say": "패 스 트",
+  "kind": "space+vowel",
+  "inDict": true
+ },
+ {
+  "title": "페스트",
+  "say": "페쓰트",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "노인과 바다",
+  "say": "혹시 노임과 바다 있나요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "노인과 바다",
+  "say": "노인바다",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "노인과 바다",
+  "say": "노과바다",
+  "kind": "drop",
+  "inDict": true
+ },
+ {
+  "title": "연금술사",
+  "say": "연끔술사 상동에서 받을게요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "연금술사",
+  "say": "연금쑬사 빌려 주세요",
+  "kind": "tense",
+  "inDict": true
+ },
+ {
+  "title": "연금술사",
+  "say": "연긍술사 빌리고 싶어요",
+  "kind": "final",
+  "inDict": true
+ },
+ {
+  "title": "토지",
+  "say": "혹시 토 지 있나요",
+  "kind": "space",
+  "inDict": false
+ },
+ {
+  "title": "태백산맥",
+  "say": "혹시 태벡삼맥 있나요",
+  "kind": "final+vowel",
+  "inDict": false
+ },
+ {
+  "title": "난장이가 쏘아올린 작은 공",
+  "say": "혹시 난장이가 쏘아올린 자근 공 있나요",
+  "kind": "liaison",
+  "inDict": false
+ },
+ {
+  "title": "무진기행",
+  "say": "무진끼행 빌리고 싶어요",
+  "kind": "tense",
+  "inDict": false
+ },
+ {
+  "title": "엄마를 부탁해",
+  "say": "옴마를 뿌탁해 있어요",
+  "kind": "vowel+tense",
+  "inDict": false
+ },
+ {
+  "title": "칼의 노래",
+  "say": "카릐 노래 있어요",
+  "kind": "liaison",
+  "inDict": false
+ },
+ {
+  "title": "살인자의 기억법",
+  "say": "살인자이 기옥법 빌려 주세요",
+  "kind": "vowel+vowel",
+  "inDict": false
+ },
+ {
+  "title": "7년의 밤",
+  "say": "7년의 빰 상동에서 받을게요",
+  "kind": "tense",
+  "inDict": false
+ },
+ {
+  "title": "종의 기원",
+  "say": "종이 기원 빌려 주세요",
+  "kind": "vowel",
+  "inDict": false
+ },
+ {
+  "title": "침묵의 봄",
+  "say": "침묵의 벙 빌리고 싶어요",
+  "kind": "final+vowel",
+  "inDict": false
+ },
+ {
+  "title": "군주론",
+  "say": "꾼주런 상동에서 받을게요",
+  "kind": "tense+vowel",
+  "inDict": false
+ },
+ {
+  "title": "동물농장",
+  "say": "동 물 농 장",
+  "kind": "space",
+  "inDict": false
+ },
+ {
+  "title": "멋진 신세계",
+  "say": "멋찐 신세계 빌려 주세요",
+  "kind": "tense",
+  "inDict": false
+ },
+ {
+  "title": "위대한 개츠비",
+  "say": "위한개비 있어요",
+  "kind": "drop+drop",
+  "inDict": false
+ },
+ {
+  "title": "호밀밭의 파수꾼",
+  "say": "혹시 호밀밭이 파쑤꾼 있나요",
+  "kind": "vowel+tense",
+  "inDict": false
+ },
+ {
+  "title": "이방인",
+  "say": "혹시 이방임 있나요",
+  "kind": "final",
+  "inDict": false
+ },
+ {
+  "title": "변신",
+  "say": "볌심 빌리고 싶어요",
+  "kind": "final+final",
+  "inDict": false
+ },
+ {
+  "title": "죄와 벌",
+  "say": "죄와 뻘",
+  "kind": "tense",
+  "inDict": false
+ },
+ {
+  "title": "오만과 편견",
+  "say": "어만과편견 상동에서 받을게요",
+  "kind": "vowel+space",
+  "inDict": false
+ },
+ {
+  "title": "제인 에어",
+  "say": "쩨인 에어 빌리고 싶어요",
+  "kind": "tense",
+  "inDict": false
+ },
+ {
+  "title": "폭풍의 언덕",
+  "say": "혹시 폭푼의 언덕 있나요",
+  "kind": "final",
+  "inDict": false
+ },
+ {
+  "title": "레 미제라블",
+  "say": "레 미재라블",
+  "kind": "vowel",
+  "inDict": false
+ },
+ {
+  "title": "돈키호테",
+  "say": "똔키호테 빌려 주세요",
+  "kind": "tense",
+  "inDict": false
+ },
+ {
+  "title": "햄릿",
+  "say": "혹시 햄릳 있나요",
+  "kind": "final",
+  "inDict": false
+ },
+ {
+  "title": "파우스트",
+  "say": "파우쓰트 있어요",
+  "kind": "tense",
+  "inDict": false
+ },
+ {
+  "title": "백년의 고독",
+  "say": "혹시 백념의 고독 있나요",
+  "kind": "final",
+  "inDict": false
+ },
+ {
+  "title": "그리스인 조르바",
+  "say": "혹시 그리스인조바 있나요",
+  "kind": "space+drop",
+  "inDict": false
+ },
+ {
+  "title": "달과 6펜스",
+  "say": "달과 6팬스 상동에서 받을게요",
+  "kind": "vowel",
+  "inDict": false
+ },
+ {
+  "title": "꽃을 보듯 너를 본다",
+  "say": "꽃을 보듯 빌려 주세요",
+  "kind": "front",
+  "inDict": false
+ },
+ {
+  "title": "나의 라임오렌지나무",
+  "say": "혹시 나의 라이모렌지나무 있나요",
+  "kind": "liaison",
+  "inDict": false
+ }
+]
