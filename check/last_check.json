@@ -1,5 +1,5 @@
 {
- "time": "2026-10-21 09:04 KST",
+ "time": "2026-10-22 09:05 KST",
  "page": "https://altarry-prog.github.io/chaekiji-pilot/",
  "repo_md5": "013f505ffa69c0c156fdb02d8419a9e8",
  "checks": [
@@ -9,9 +9,9 @@
    "detail": "013f505ffa69c0c156fdb02d8419a9e8"
   },
   {
-   "name": "「나미야 잡화점의 기적」 — 판정이 옴(993ms)",
+   "name": "「나미야 잡화점의 기적」 — 판정이 옴(991ms)",
    "pass": true,
-   "detail": "상호대차로 상동도서관에서 받을 수 있어요"
+   "detail": "상동도서관 서가에 있어요"
   },
   {
    "name": "「나미야 잡화점의 기적」 — 누리집 링크가 그 책 ISBN 화면",
@@ -21,7 +21,7 @@
   {
    "name": "「나미야 잡화점의 기적」 — 선반 16칸이 모두 상태를 가짐",
    "pass": true,
-   "detail": "busy,ok,ok,none,busy,busy,busy,ok,busy,ok,busy,none,ok,ok,none,ok"
+   "detail": "busy,ok,ok,none,busy,busy,ok,ok,busy,ok,busy,none,ok,ok,none,ok"
   },
   {
    "name": "「나미야 잡화점의 기적」 — 화면 오류·CSP 위반 0",
@@ -34,7 +34,7 @@
    "detail": "altarry-prog.github.io,chaekiji-relay.altarry2.workers.dev"
   },
   {
-   "name": "「불편한 편의점」 — 판정이 옴(910ms)",
+   "name": "「불편한 편의점」 — 판정이 옴(303ms)",
    "pass": true,
    "detail": "상동도서관 서가에 있어요"
   },
@@ -46,7 +46,7 @@
   {
    "name": "「불편한 편의점」 — 선반 16칸이 모두 상태를 가짐",
    "pass": true,
-   "detail": "busy,busy,ok,ok,ok,ok,ok,ok,ok,ok,busy,busy,ok,ok,ok,busy"
+   "detail": "ok,busy,ok,ok,ok,ok,ok,ok,ok,ok,busy,busy,ok,ok,ok,busy"
   },
   {
    "name": "「불편한 편의점」 — 화면 오류·CSP 위반 0",
@@ -61,18 +61,18 @@
  ],
  "deployed_md5": "013f505ffa69c0c156fdb02d8419a9e8",
  "9788972756194": {
-  "verdict": "상호대차로 상동도서관에서 받을 수 있어요",
-  "ok": 7,
-  "busy": 6,
+  "verdict": "상동도서관 서가에 있어요",
+  "ok": 8,
+  "busy": 5,
   "none": 3,
-  "basis": "정보나루 2026. 10. 21. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
+  "basis": "정보나루 2026. 10. 22. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
  },
  "9791161571188": {
   "verdict": "상동도서관 서가에 있어요",
-  "ok": 11,
-  "busy": 5,
+  "ok": 12,
+  "busy": 4,
   "none": 0,
-  "basis": "정보나루 2026. 10. 21. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
+  "basis": "정보나루 2026. 10. 22. 조회 기준이라 전날 상태예요. 신청하기 전에 누리집에서 한 번 더 확인하세요."
  },
  "passed": 11,
  "total": 11
